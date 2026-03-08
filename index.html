@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Québec — A Traveller's Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #162040;
+    --cream: #f4e8ce;
+    --gold: #c9943a;
+    --orange: #bf4e1a;
+    --green: #2a4e35;
+    --red: #8f1c1c;
+    --sky: #4a7fa5;
+    --light-cream: #fdf5e4;
+    --dark-cream: #e8d5a8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--navy);
+    color: var(--navy);
+    font-family: 'EB Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  .page-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* ===================== HEADER ===================== */
+  .header {
+    background-color: var(--cream);
+    border: 3px solid var(--navy);
+    position: relative;
+    text-align: center;
+    padding: 40px 30px 30px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .header::before, .header::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--orange) 0px, var(--orange) 16px,
+      var(--gold) 16px, var(--gold) 32px,
+      var(--navy) 32px, var(--navy) 48px,
+      var(--gold) 48px, var(--gold) 64px
+    );
+  }
+  .header::before { top: 0; }
+  .header::after { bottom: 0; }
+
+  .header-inner {
+    border: 1.5px solid var(--navy);
+    padding: 24px 20px;
+    position: relative;
+  }
+
+  .header-inner::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--gold);
+    pointer-events: none;
+  }
+
+  /* Sunburst */
+  .sunburst {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 16px;
+    position: relative;
+  }
+
+  .sunburst svg {
+    width: 100%;
+    height: 100%;
+    animation: spin-slow 40s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .header-flag {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 7vw, 72px);
+    font-weight: 900;
+    line-height: 0.9;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: -1px;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--orange);
+    display: block;
+    font-size: 0.55em;
+    letter-spacing: 2px;
+  }
+
+  .header-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0;
+    color: var(--gold);
+  }
+  .header-divider span { flex: 1; height: 1px; background: var(--gold); }
+
+  .header-sub {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--navy);
+    opacity: 0.75;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===================== REGION TABS ===================== */
+  .region-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+  }
+
+  .region-tab {
+    flex: 1;
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    transition: all 0.25s ease;
+  }
+
+  .region-tab.montreal {
+    background: var(--green);
+    color: var(--cream);
+    border-color: var(--green);
+  }
+  .region-tab.montreal:hover, .region-tab.montreal.active {
+    background: var(--cream);
+    color: var(--green);
+    border-color: var(--cream);
+  }
+
+  .region-tab.quebec {
+    background: var(--orange);
+    color: var(--cream);
+    border-color: var(--orange);
+  }
+  .region-tab.quebec:hover, .region-tab.quebec.active {
+    background: var(--cream);
+    color: var(--orange);
+    border-color: var(--cream);
+  }
+
+  /* ===================== REGION PANELS ===================== */
+  .region-panel {
+    display: none;
+    background: var(--cream);
+    border: 2px solid var(--navy);
+    border-top: none;
+    padding: 24px 20px;
+    animation: fadeUp 0.3s ease;
+  }
+  .region-panel.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .region-intro {
+    font-style: italic;
+    font-size: 15px;
+    text-align: center;
+    color: var(--navy);
+    opacity: 0.7;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--gold);
+  }
+
+  /* ===================== ACCORDION SECTIONS ===================== */
+  .section {
+    margin-bottom: 8px;
+    border: 1.5px solid var(--navy);
+    overflow: hidden;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+    gap: 12px;
+  }
+
+  .section-header:hover { filter: brightness(0.95); }
+
+  .section-header .icon { font-size: 20px; flex-shrink: 0; }
+
+  .section-title {
+    flex: 1;
+    font-family: 'Cinzel', serif;
+    font-size: 11.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  .section-arrow {
+    font-size: 12px;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+  .section.open .section-arrow { transform: rotate(180deg); }
+
+  .section-body {
+    display: none;
+    padding: 18px 20px;
+    background: var(--light-cream);
+    border-top: 1px solid var(--dark-cream);
+  }
+  .section.open .section-body { display: block; }
+
+  /* COLOUR THEMES PER SECTION */
+  .theme-green .section-header { background: var(--green); color: var(--cream); }
+  .theme-navy .section-header { background: var(--navy); color: var(--cream); }
+  .theme-orange .section-header { background: var(--orange); color: var(--cream); }
+  .theme-gold .section-header { background: var(--gold); color: var(--navy); }
+  .theme-red .section-header { background: var(--red); color: var(--cream); }
+  .theme-sky .section-header { background: var(--sky); color: var(--cream); }
+
+  /* ===================== CONTENT ITEMS ===================== */
+  .item-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--cream);
+    border: 1px solid var(--dark-cream);
+    border-left: 3px solid var(--gold);
+    transition: border-left-color 0.2s, transform 0.15s;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .item:hover {
+    border-left-color: var(--orange);
+    transform: translateX(2px);
+  }
+
+  .item-bullet {
+    color: var(--gold);
+    font-size: 18px;
+    line-height: 1.2;
+    flex-shrink: 0;
+  }
+
+  .item-name {
+    font-weight: 500;
+    color: var(--navy);
+  }
+
+  .item-desc {
+    font-style: italic;
+    color: var(--navy);
+    opacity: 0.72;
+    font-size: 14px;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .star { color: var(--orange); }
+
+  /* Food Itinerary special styling */
+  .itinerary-day {
+    margin-bottom: 16px;
+  }
+
+  .itinerary-day-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    border-bottom: 1px solid var(--dark-cream);
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+  }
+
+  .meal-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 6px 10px;
+    background: var(--cream);
+    border: 1px solid var(--dark-cream);
+    border-left: 3px solid var(--sky);
+    margin-bottom: 4px;
+    font-size: 14.5px;
+  }
+
+  .meal-time {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--sky);
+    white-space: nowrap;
+    min-width: 70px;
+  }
+
+  .meal-detail { color: var(--navy); }
+
+  /* Links section */
+  .link-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--cream);
+    border: 1px solid var(--dark-cream);
+    border-left: 3px solid var(--green);
+    margin-bottom: 5px;
+  }
+
+  .link-row a {
+    color: var(--sky);
+    font-size: 13.5px;
+    word-break: break-all;
+    text-decoration: none;
+    border-bottom: 1px dotted var(--sky);
+  }
+  .link-row a:hover { color: var(--orange); border-bottom-color: var(--orange); }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    padding: 2px 7px;
+    border: 1px solid currentColor;
+    margin-top: 3px;
+    margin-right: 3px;
+    text-transform: uppercase;
+  }
+  .tag-orange { color: var(--orange); }
+  .tag-green { color: var(--green); }
+  .tag-sky { color: var(--sky); }
+
+  /* ===================== ORNAMENTAL DIVIDERS ===================== */
+  .ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 20px;
+    margin: 16px 0 12px;
+    letter-spacing: 8px;
+  }
+
+  /* ===================== FOOTER ===================== */
+  .footer {
+    background: var(--navy);
+    color: var(--cream);
+    text-align: center;
+    padding: 24px;
+    margin-top: 16px;
+    border: 2px solid var(--gold);
+  }
+
+  .footer p {
+    font-style: italic;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  .footer-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width: 600px) {
+    .page-wrapper { padding: 12px; }
+    .header { padding: 30px 16px 20px; }
+    .region-tab { font-size: 9px; letter-spacing: 1.5px; padding: 12px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="sunburst">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Rays -->
+          <g stroke="#c9943a" stroke-width="1.2" opacity="0.6">
+            <line x1="60" y1="2" x2="60" y2="30"/>
+            <line x1="60" y1="90" x2="60" y2="118"/>
+            <line x1="2" y1="60" x2="30" y2="60"/>
+            <line x1="90" y1="60" x2="118" y2="60"/>
+            <line x1="18" y1="18" x2="38" y2="38"/>
+            <line x1="82" y1="82" x2="102" y2="102"/>
+            <line x1="102" y1="18" x2="82" y2="38"/>
+            <line x1="38" y1="82" x2="18" y2="102"/>
+            <line x1="10" y1="37" x2="34" y2="47"/>
+            <line x1="86" y1="73" x2="110" y2="83"/>
+            <line x1="10" y1="83" x2="34" y2="73"/>
+            <line x1="86" y1="47" x2="110" y2="37"/>
+            <line x1="37" y1="10" x2="47" y2="34"/>
+            <line x1="73" y1="86" x2="83" y2="110"/>
+            <line x1="83" y1="10" x2="73" y2="34"/>
+            <line x1="47" y1="86" x2="37" y2="110"/>
+          </g>
+          <!-- Outer ring -->
+          <circle cx="60" cy="60" r="50" stroke="#c9943a" stroke-width="1" fill="none" opacity="0.4"/>
+          <circle cx="60" cy="60" r="44" stroke="#c9943a" stroke-width="0.5" fill="none" opacity="0.3"/>
+          <!-- Fleur de lys simplified -->
+          <circle cx="60" cy="60" r="18" fill="#162040"/>
+          <text x="60" y="67" font-size="18" text-anchor="middle" fill="#c9943a" font-family="serif">⚜</text>
+        </svg>
+      </div>
+
+      <div class="header-flag">A Traveller's Compendium</div>
+      <h1>Québec<em>& Environs</em></h1>
+
+      <div class="header-divider">
+        <span></span>
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z" fill="#c9943a"/></svg>
+        <span></span>
+      </div>
+
+      <div class="header-sub">Curated discoveries for the discerning wanderer</div>
+    </div>
+  </div>
+
+  <!-- REGION TABS -->
+  <div class="region-tabs">
+    <div class="region-tab montreal active" onclick="switchRegion('montreal')">
+      ❧ &nbsp;Autour de Montréal &amp; la Route
+    </div>
+    <div class="region-tab quebec" onclick="switchRegion('quebec')">
+      Ville de Québec &nbsp;❧
+    </div>
+  </div>
+
+  <!-- ======================== MONTRÉAL PANEL ======================== -->
+  <div class="region-panel active" id="panel-montreal">
+    <p class="region-intro">Along the storied banks of the St. Lawrence — towns, forests, and the sweet smoke of sugar shacks</p>
+
+    <!-- ROADS -->
+    <div class="section theme-navy" id="s-roads">
+      <div class="section-header" onclick="toggle('s-roads')">
+        <span class="icon">🗺</span>
+        <span class="section-title">The Road — Chemin du Roy</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item">
+            <span class="item-bullet">⸻</span>
+            <div>
+              <span class="item-name">Chemin du Roy</span>
+              <span class="item-desc">Historic road along the north shore of the St. Lawrence. Begins in Repentigny, extends ~280 km east to Québec City. Follows present-day Route 138.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TOWNS -->
+    <div class="section theme-green" id="s-towns">
+      <div class="section-header" onclick="toggle('s-towns')">
+        <span class="icon">🏘</span>
+        <span class="section-title">Towns &amp; Villages</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div>
+              <span class="item-name">Trois-Rivières</span>
+              <span class="item-desc">Borealis Museum · Pop Museum · Parc de l'Île Saint-Quentin · Sanctuaire Notre-Dame-du-Cap</span>
+            </div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div>
+              <span class="item-name">Chambly</span>
+              <span class="item-desc">Old citadel · Historic canal site</span>
+            </div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div>
+              <span class="item-name">Portneuf</span>
+              <span class="item-desc">Regional park · Miel &amp; Co Apiary · Vieux Chemin — historic old town with pretty houses</span>
+            </div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div><span class="item-name">Magog</span></div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div>
+              <span class="item-name">Drummondville</span>
+              <span class="item-desc">Village Québécois d'Antan — living history museum</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- NATURE -->
+    <div class="section theme-green" id="s-nature-mtl">
+      <div class="section-header" onclick="toggle('s-nature-mtl')">
+        <span class="icon">🌲</span>
+        <span class="section-title">Nature</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div><span class="item-name">Parc National Mont-Orford</span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUGAR SHACKS -->
+    <div class="section theme-orange" id="s-sugar">
+      <div class="section-header" onclick="toggle('s-sugar')">
+        <span class="icon">🍁</span>
+        <span class="section-title">Sugar Shacks — Cabanes à Sucre</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="link-row">
+          <span>📋</span>
+          <a href="https://www.ppaq.ca" target="_blank">Québec Maple Producers — ppaq.ca</a>
+        </div>
+        <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+        <ul class="item-list">
+          <li class="item">
+            <span class="item-bullet">⭑</span>
+            <div>
+              <span class="item-name">Érablière Martin Quessy <span class="star">★</span></span>
+              <span class="item-desc">Excellent reviews · Beautiful shop · Pop-by tastings available · ~35–40 min outside Trois-Rivières</span>
+              <span class="tag tag-orange">Must Consider</span>
+            </div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">⭑</span>
+            <div>
+              <span class="item-name">Cabane à Sucre St-Mathieu-du-Parc <span class="star">★</span></span>
+              <span class="item-desc">Great reviews · Beautiful setting · Pop-by tastings available</span>
+              <span class="tag tag-orange">Must Consider</span>
+            </div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">⭑</span>
+            <div>
+              <span class="item-name">Domaine Au Tour de Table <span class="star">★</span></span>
+              <span class="item-desc">Highly rated · Beautiful shop</span>
+              <span class="tag tag-orange">Must Consider</span>
+            </div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div>
+              <span class="item-name">Ferme le Crépuscule</span>
+              <span class="item-desc">Farm + meal + maple · Traditional lunch at noon · Reservations recommended; walk-in tastings / tours possible</span>
+            </div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div>
+              <span class="item-name">Cabane à Sucre Chez Dany</span>
+              <span class="item-desc">Classic destination · Reservations likely required — confirm ahead</span>
+            </div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div>
+              <span class="item-name">La Cabane du Coureur</span>
+              <span class="item-desc">Riverside · Slightly more contemporary menu</span>
+              <span class="tag tag-sky">Riverside</span>
+            </div>
+          </li>
+          <li class="item">
+            <span class="item-bullet">◆</span>
+            <div>
+              <span class="item-name">La Sucrerie de Courval</span>
+              <span class="item-desc">Riverside · Classic and delicious</span>
+              <span class="tag tag-sky">Riverside</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /montreal panel -->
+
+  <!-- ======================== QUÉBEC CITY PANEL ======================== -->
+  <div class="region-panel" id="panel-quebec">
+    <p class="region-intro">La vieille capitale — cobblestones, château spires, and tables that make you linger</p>
+
+    <!-- LINKS -->
+    <div class="section theme-navy" id="s-links">
+      <div class="section-header" onclick="toggle('s-links')">
+        <span class="icon">🔗</span>
+        <span class="section-title">Useful Links &amp; Resources</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="link-row">
+          <span>🌐</span>
+          <a href="https://www.quebec-cite.com/en" target="_blank">quebec-cite.com — Official Tourism</a>
+        </div>
+        <div class="link-row">
+          <span>🏠</span>
+          <a href="https://guide.touchstay.com/guest/b45lchHjYkWGN/" target="_blank">DUN House Guidebook (TouchStay)</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SITES & ACTIVITIES -->
+    <div class="section theme-sky" id="s-sites">
+      <div class="section-header" onclick="toggle('s-sites')">
+        <span class="icon">🏰</span>
+        <span class="section-title">Sites &amp; Activities</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Old Québec</span><span class="item-desc">Entirely walkable — start here</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Walk the City Walls</span><span class="item-desc">Historic fortifications surrounding old Québec</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Fairmont Le Château Frontenac</span><span class="item-desc">Iconic castle hotel — worth a visit even if not staying</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Citadelle of Québec</span><span class="item-desc">Ancient city walls and fortress</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Morrin Centre</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">House of Literature</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Lampadaires Avenue Cartier</span><span class="item-desc">Colorful public lampshades installation</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Papeterie Saint-Gilles</span><span class="item-desc">Paper museum with paper-making workshops</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Isle aux Coudres</span><span class="item-desc">Island activities</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Strom Spa Nordique 🧖</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Siberian Station Spa</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Nordik Spa Nature Village</span><span class="item-desc">Large property in nature — many pools, saunas, etc.</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- NATURE QC -->
+    <div class="section theme-green" id="s-nature-qc">
+      <div class="section-header" onclick="toggle('s-nature-qc')">
+        <span class="icon">🌳</span>
+        <span class="section-title">Nature &amp; Views</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Île d'Orléans</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Terrasse du Chevalier-de-Lévis</span><span class="item-desc">Sunset views of Québec City from across the river</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Montmorency Falls</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Cap-Tourmente 🌳</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FOOD ITINERARY -->
+    <div class="section theme-red" id="s-itinerary">
+      <div class="section-header" onclick="toggle('s-itinerary')">
+        <span class="icon">📅</span>
+        <span class="section-title">Food Itinerary</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="itinerary-day">
+          <div class="itinerary-day-label">Thursday</div>
+          <div class="meal-row"><span class="meal-time">Dinner · 8:30</span><span class="meal-detail">Candide</span></div>
+        </div>
+        <div class="itinerary-day">
+          <div class="itinerary-day-label">Friday</div>
+          <div class="meal-row"><span class="meal-time">Breakfast</span><span class="meal-detail">TBD</span></div>
+          <div class="meal-row"><span class="meal-time">Lunch</span><span class="meal-detail">TBD</span></div>
+          <div class="meal-row"><span class="meal-time">Dinner · 6:00</span><span class="meal-detail">Melba</span></div>
+        </div>
+        <div class="itinerary-day">
+          <div class="itinerary-day-label">Saturday</div>
+          <div class="meal-row"><span class="meal-time">Brunch · 10:15</span><span class="meal-detail">Le Relais Des Pins — then sugar shack — then Île d'Orléans</span></div>
+          <div class="meal-row"><span class="meal-time">Dinner · 8:00</span><span class="meal-detail">Buvette Scott</span></div>
+        </div>
+        <div class="itinerary-day">
+          <div class="itinerary-day-label">Sunday</div>
+          <div class="meal-row"><span class="meal-time">Lunch · 1:00</span><span class="meal-detail">Érablière du Lac Beauport (sugar shack, near DUN House)</span></div>
+          <div class="meal-row"><span class="meal-time">Dinner · 7:30</span><span class="meal-detail">Chez Boulay Bistro Boréal — or stay in with cheese &amp; wine / takeout</span></div>
+        </div>
+        <div class="itinerary-day">
+          <div class="itinerary-day-label">Monday</div>
+          <div class="meal-row"><span class="meal-time">Breakfast</span><span class="meal-detail">TBD</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKETS & SHOPS -->
+    <div class="section theme-gold" id="s-markets">
+      <div class="section-header" onclick="toggle('s-markets')">
+        <span class="icon">🧺</span>
+        <span class="section-title">Markets &amp; Épiceries</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chez Bouley — Épicerie Québécoise</span><span class="item-desc">Shop · Prepared foods · Pastries · Next to a cute hotel</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Grand Marché de Québec</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie J.A. Moisan</span><span class="item-desc">Possibly closed · Oldest grocery store in North America</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Boucherie Charcuterie Artisanal Lyn Tremblay</span><span class="item-desc">Butcher and charcuterie</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Place Boutique Gourmand</span><span class="item-desc">Market · Wine &amp; beer · Local products · Largest chip section in Québec</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Les Trouvailles de Jules</span><span class="item-desc">Local artisanal products</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie Richard</span><span class="item-desc">Small shop with artisanal products</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie de la Rue Coillard</span><span class="item-desc">Another charming small shop</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Marché d'Emma</span><span class="item-desc">Cute shop · Local beer</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie Chez Paul</span><span class="item-desc">Gas station with fresh baked meat pies</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CHEESE -->
+    <div class="section theme-gold" id="s-cheese">
+      <div class="section-header" onclick="toggle('s-cheese')">
+        <span class="icon">🧀</span>
+        <span class="section-title">Fromageries &amp; Cheese</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Famille Migneron de Charlevoix</span><span class="item-desc">Cheesemakers · Wine</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Laiterie Charlevoix</span><span class="item-desc">Cheesemaker · Farmer · Shop · Small museum · Picnic area</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Fromagerie des Grondines</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Maison d'Affinage Maurice Dufour</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Réserve</span><span class="item-desc">Shop · Cheese and charcuterie</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Charcutier du Marché</span><span class="item-desc">Charcuterie · Sausages · Hot food · 2 locations</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BREAD -->
+    <div class="section theme-orange" id="s-bread">
+      <div class="section-header" onclick="toggle('s-bread')">
+        <span class="icon">🥐</span>
+        <span class="section-title">Boulangeries &amp; Bread</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Pascal Le Boulanger</span><span class="item-desc">2 locations</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Boulangerie Bouchard</span><span class="item-desc">2 locations · German-style breads</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Boulangerie Louis Marchand</span><span class="item-desc">Very old-school bread and pastry</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SWEETS & PATISSERIES -->
+    <div class="section theme-orange" id="s-sweets">
+      <div class="section-header" onclick="toggle('s-sweets')">
+        <span class="icon">🍫</span>
+        <span class="section-title">Sweets, Chocolate &amp; Maple</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Aux Fruits du Biscuitier</span><span class="item-desc">Ice cream · Cookies · Dessert</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Petite Cabane</span><span class="item-desc">Maple shop in Old Québec</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Érablière du Cap Inc</span><span class="item-desc">Taffy stand · Riverside opposite Old Québec · No res needed Sat–Sun 👌</span><span class="tag tag-sky">Riverside · No Res</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Nougaterie Québec</span><span class="item-desc">Île d'Orléans</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Boulangerie Artisanale Épi'Fanny</span><span class="item-desc">Croissants</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Praline e Chocolate</span><span class="item-desc">Croissants · Breads</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Baguette &amp; Chocolat</span><span class="item-desc">Breads · Sandwiches</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Croquembouche</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Borderon et Filles</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Boîte à Pain</span><span class="item-desc">Pastries · Bread</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Confituerie Tigidou</span><span class="item-desc">Jam shop</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chocolaterie — Île d'Orléans</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Chocolaterie du Village</span><span class="item-desc">Chocolate shop · 2 locations</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Erico — Chocolaterie Créative</span><span class="item-desc">Shop + excellent hot chocolate</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Eddy Laurent Chocolaterie</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Champagne Chocolate</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Cotard Chocolate</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- COFFEE -->
+    <div class="section theme-navy" id="s-coffee">
+      <div class="section-header" onclick="toggle('s-coffee')">
+        <span class="icon">☕</span>
+        <span class="section-title">Cafés &amp; Coffee</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Café Apotek</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Cantook</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">deTerroir Café</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Café Saint-Henri</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Mayflower</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BREAKFAST & LUNCH -->
+    <div class="section theme-sky" id="s-brunch">
+      <div class="section-header" onclick="toggle('s-brunch')">
+        <span class="icon">🍳</span>
+        <span class="section-title">Breakfast &amp; Lunch</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Maelstrom Café</span><span class="item-desc">Café in the morning · Cocktail bar at night</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">L'Antiquaire Buffet</span><span class="item-desc">Old-school diner · Classic Québec-style breakfast</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Café Bistro Au Bonnet d'Âne</span><span class="item-desc">Great reviews for service and food · Hearty breakfast</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Bûche</span><span class="item-desc">Classic big French spot · Can be touristy</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Billig</span><span class="item-desc">Crêperie</span></div></li>
+          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Franky Johnny <span class="star">★</span></span><span class="item-desc">Sandwiches · Looks excellent</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chez Boulay — Comptoir Boréal</span><span class="item-desc">Not sit-down · Good to-go options</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Corsaire</span><span class="item-desc">Microbrewery · Lunch · Views of the city</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DINNER -->
+    <div class="section theme-red" id="s-dinner">
+      <div class="section-header" onclick="toggle('s-dinner')">
+        <span class="icon">🕯</span>
+        <span class="section-title">Dinner Restaurants</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Melba <span class="star">★</span></span><span class="item-desc">Reservations open early March for April</span><span class="tag tag-orange">Book Ahead</span></div></li>
+          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Buvette Scott <span class="star">★</span></span><span class="item-desc">Reservations open early March for April</span><span class="tag tag-orange">Book Ahead</span></div></li>
+          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Battuto</span><span class="item-desc">April res open at noon 3/27</span><span class="tag tag-orange">Book Ahead</span></div></li>
+          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Alentours</span><span class="item-desc">April res open at noon 3/1</span><span class="tag tag-orange">Book Ahead</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Kundah Hotel</span><span class="item-desc">Indian cuisine</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Planque</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">L'Affaire est Ketchup</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Laurie Raphaël</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Hono Izakaya / Ramen</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le 101</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Albacore</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chez Boulay Bistro Boréal</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Clocher Penché</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DRINKS & BARS -->
+    <div class="section theme-green" id="s-bars">
+      <div class="section-header" onclick="toggle('s-bars')">
+        <span class="icon">🍷</span>
+        <span class="section-title">Cideries, Distilleries, Wine Bars &amp; Bars</span>
+        <span class="section-arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <p style="font-style:italic; font-size:13px; color:var(--navy); opacity:0.6; margin-bottom:12px; font-family:'Cinzel',serif; letter-spacing:1px; text-transform:uppercase; font-size:10px;">— Charlevoix &amp; Surrounds —</p>
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Domaine Orléans</span><span class="item-desc">Cidery — Île d'Orléans</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Menaud Distillery</span><span class="item-desc">Rhubarb vodka</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Omerto</span><span class="item-desc">Tomato wine</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Hydromel Charlevoix</span><span class="item-desc">Honey and meadery · Drop-in tastings available</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Ciderie et Vergers Pedneault</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Cassis Monna &amp; Filles</span><span class="item-desc">Wine shop and tastings · Black currant specialty</span></div></li>
+        </ul>
+        <div class="ornament" style="margin-top:16px;">— · —</div>
+        <p style="font-style:italic; font-size:13px; color:var(--navy); opacity:0.6; margin-bottom:12px; font-family:'Cinzel',serif; letter-spacing:1px; text-transform:uppercase; font-size:10px;">— In Québec City —</p>
+        <ul class="item-list">
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Buvette Scott</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Buvette Gentille</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Bistro St-Malo</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Bar Ste-Angèle</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chez Rioux Pettigrew</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Petits Creux</span></div></li>
+          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Vieux Carré</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /quebec panel -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-title">⚜ Bon Voyage ⚜</div>
+    <p>May your travels be full of good bread, strong coffee, and golden maple.</p>
+  </div>
+
+</div><!-- /page-wrapper -->
+
+<script>
+  function toggle(id) {
+    const section = document.getElementById(id);
+    section.classList.toggle('open');
+  }
+
+  function switchRegion(region) {
+    document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.region-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector('.region-tab.' + region).classList.add('active');
+    document.getElementById('panel-' + region).classList.add('active');
+  }
+</script>
+</body>
+</html>
