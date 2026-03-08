@@ -397,6 +397,31 @@
   }
   .link-row a:hover { color: var(--orange); border-bottom-color: var(--orange); }
 
+  /* Map pin link */
+  .map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--sky);
+    text-decoration: none;
+    border: 1px solid var(--sky);
+    padding: 2px 7px 2px 5px;
+    margin-top: 5px;
+    margin-right: 4px;
+    transition: background 0.18s, color 0.18s;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .map-link:hover, .map-link:active {
+    background: var(--sky);
+    color: var(--cream);
+  }
+  .map-link svg { flex-shrink: 0; }
+
   /* Tags */
   .tag {
     display: inline-block;
@@ -610,7 +635,7 @@
     </div>
 
     <!-- TOWNS -->
-    <div class="section theme-green" id="s-towns">
+    <div class="section theme-red" id="s-towns">
       <div class="section-header" onclick="toggle('s-towns')">
         <span class="icon">🏘</span>
         <span class="section-title">Towns &amp; Villages</span>
@@ -618,36 +643,39 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item">
+          <li class="item" data-map="Trois-Rivières, Quebec, Canada">
             <span class="item-bullet">◆</span>
             <div>
               <span class="item-name">Trois-Rivières</span>
-              <span class="item-desc">Borealis Museum · Pop Museum · Parc de l'Île Saint-Quentin · Sanctuaire Notre-Dame-du-Cap</span>
+              <span class="item-desc">Borealis (world's first paper museum) · Musée POP · Parc de l'Île Saint-Quentin · Sanctuaire Notre-Dame-du-Cap</span>
             </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="Chambly, Quebec, Canada">
             <span class="item-bullet">◆</span>
             <div>
               <span class="item-name">Chambly</span>
-              <span class="item-desc">Old citadel · Historic canal site</span>
+              <span class="item-desc">Fort Chambly and the Chambly Canal — two National Historic Sites flanking the Richelieu River</span>
             </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="Portneuf, Quebec, Canada">
             <span class="item-bullet">◆</span>
             <div>
               <span class="item-name">Portneuf</span>
-              <span class="item-desc">Regional park · Miel &amp; Co Apiary · Vieux Chemin — historic old town with pretty houses</span>
+              <span class="item-desc">Regional park · Miel &amp; Co Apiary · Vieux Chemin — a handsome strip of historic houses along the old post road</span>
             </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="Magog, Quebec, Canada">
             <span class="item-bullet">◆</span>
-            <div><span class="item-name">Magog</span></div>
+            <div>
+              <span class="item-name">Magog</span>
+              <span class="item-desc">Gateway to the Eastern Townships — a lovely lakeside town on the shores of Lac Memphrémagog</span>
+            </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="Village Québécois d'Antan Drummondville">
             <span class="item-bullet">◆</span>
             <div>
               <span class="item-name">Drummondville</span>
-              <span class="item-desc">Village Québécois d'Antan — living history museum</span>
+              <span class="item-desc">Village Québécois d'Antan — a full-scale living history village recreating rural Québec from 1810 to 1930</span>
             </div>
           </li>
         </ul>
@@ -663,9 +691,9 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item">
+          <li class="item" data-map="Parc National Mont-Orford Quebec">
             <span class="item-bullet">◆</span>
-            <div><span class="item-name">Parc National Mont-Orford</span></div>
+            <div><span class="item-name">Parc National Mont-Orford</span><span class="item-desc">Hiking, swimming at Lac Stukely, and skiing in the heart of the Eastern Townships</span></div>
           </li>
         </ul>
       </div>
@@ -685,57 +713,57 @@
         </div>
         <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
         <ul class="item-list">
-          <li class="item">
+          <li class="item" data-map="Érablière Martin Quessy Quebec">
             <span class="item-bullet">⭑</span>
             <div>
               <span class="item-name">Érablière Martin Quessy <span class="star">★</span></span>
-              <span class="item-desc">Excellent reviews · Beautiful shop · Pop-by tastings available · ~35–40 min outside Trois-Rivières</span>
+              <span class="item-desc">Glowing reviews · Gorgeous shop and property · Walk-in tastings welcome · About 35–40 min from Trois-Rivières</span>
               <span class="tag tag-orange">Must Consider</span>
             </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="Cabane à Sucre St-Mathieu-du-Parc Quebec">
             <span class="item-bullet">⭑</span>
             <div>
               <span class="item-name">Cabane à Sucre St-Mathieu-du-Parc <span class="star">★</span></span>
-              <span class="item-desc">Great reviews · Beautiful setting · Pop-by tastings available</span>
+              <span class="item-desc">Excellent reviews · Beautiful setting in the Laurentian foothills · Walk-in tastings welcome</span>
               <span class="tag tag-orange">Must Consider</span>
             </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="Domaine Au Tour de Table Quebec">
             <span class="item-bullet">⭑</span>
             <div>
               <span class="item-name">Domaine Au Tour de Table <span class="star">★</span></span>
-              <span class="item-desc">Highly rated · Beautiful shop</span>
+              <span class="item-desc">Exceptional property with beautiful architecture — the shop alone is worth the detour</span>
               <span class="tag tag-orange">Must Consider</span>
             </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="Ferme le Crépuscule cabane sucre Quebec">
             <span class="item-bullet">◆</span>
             <div>
               <span class="item-name">Ferme le Crépuscule</span>
-              <span class="item-desc">Farm + meal + maple · Traditional lunch at noon · Reservations recommended; walk-in tastings / tours possible</span>
+              <span class="item-desc">Working farm offering a traditional maple meal at noon — reservations strongly advised for lunch; walk-in tastings and tours may be possible</span>
             </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="Cabane à Sucre Chez Dany Quebec">
             <span class="item-bullet">◆</span>
             <div>
               <span class="item-name">Cabane à Sucre Chez Dany</span>
-              <span class="item-desc">Classic destination · Reservations likely required — confirm ahead</span>
+              <span class="item-desc">A classic destination that's been going strong for decades — reservations likely required, confirm ahead</span>
             </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="La Cabane du Coureur Quebec">
             <span class="item-bullet">◆</span>
             <div>
               <span class="item-name">La Cabane du Coureur</span>
-              <span class="item-desc">Riverside · Slightly more contemporary menu</span>
+              <span class="item-desc">On the St. Lawrence · A more contemporary take on classic cabane à sucre cooking</span>
               <span class="tag tag-sky">Riverside</span>
             </div>
           </li>
-          <li class="item">
+          <li class="item" data-map="La Sucrerie de Courval Quebec">
             <span class="item-bullet">◆</span>
             <div>
               <span class="item-name">La Sucrerie de Courval</span>
-              <span class="item-desc">Riverside · Classic and delicious</span>
+              <span class="item-desc">On the St. Lawrence · The real thing — traditional recipes done beautifully</span>
               <span class="tag tag-sky">Riverside</span>
             </div>
           </li>
@@ -777,18 +805,18 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Old Québec</span><span class="item-desc">Entirely walkable — start here</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Walk the City Walls</span><span class="item-desc">Historic fortifications surrounding old Québec</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Fairmont Le Château Frontenac</span><span class="item-desc">Iconic castle hotel — worth a visit even if not staying</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Citadelle of Québec</span><span class="item-desc">Ancient city walls and fortress</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Morrin Centre</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">House of Literature</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Lampadaires Avenue Cartier</span><span class="item-desc">Colorful public lampshades installation</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Papeterie Saint-Gilles</span><span class="item-desc">Paper museum with paper-making workshops</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Isle aux Coudres</span><span class="item-desc">Island activities</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Strom Spa Nordique 🧖</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Siberian Station Spa</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Nordik Spa Nature Village</span><span class="item-desc">Large property in nature — many pools, saunas, etc.</span></div></li>
+          <li class="item" data-map="Old Quebec City Canada"><span class="item-bullet">◆</span><div><span class="item-name">Old Québec</span><span class="item-desc">Entirely walkable — start here and let the cobblestones lead you</span></div></li>
+          <li class="item" data-map="Fortifications of Quebec City walls"><span class="item-bullet">◆</span><div><span class="item-name">Walk the City Walls</span><span class="item-desc">The only remaining fortified city walls in North America north of Mexico — a 4.6 km loop with remarkable views</span></div></li>
+          <li class="item" data-map="Fairmont Le Château Frontenac Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Fairmont Le Château Frontenac</span><span class="item-desc">The most photographed hotel in the world — stop in for a drink, or simply stand outside and look up</span></div></li>
+          <li class="item" data-map="Citadelle of Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Citadelle of Québec</span><span class="item-desc">A star-shaped fortress built in the 1820s, still garrisoned by the Royal 22e Régiment — catch the summer cannon firing</span></div></li>
+          <li class="item" data-map="Morrin Centre Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Morrin Centre</span><span class="item-desc">A 19th-century prison converted into a literary and cultural hub, housing one of Québec's oldest English libraries</span></div></li>
+          <li class="item" data-map="Maison de la littérature Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">House of Literature</span><span class="item-desc">Québec's literary museum in a converted church — the architecture alone is worth the visit</span></div></li>
+          <li class="item" data-map="Avenue Cartier Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Lampadaires — Avenue Cartier</span><span class="item-desc">The neighbourhood's beloved lampshade installation casts a warm, playful glow over the café terrasses</span></div></li>
+          <li class="item" data-map="Papeterie Saint-Gilles Saint-Joseph-de-la-Rive Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Papeterie Saint-Gilles</span><span class="item-desc">A working paper mill in nearby Saint-Joseph-de-la-Rive — watch artisans at work and make your own sheet of handmade paper</span></div></li>
+          <li class="item" data-map="Isle aux Coudres Quebec Canada"><span class="item-bullet">◆</span><div><span class="item-name">Isle aux Coudres</span><span class="item-desc">A quiet island in the St. Lawrence with cycling paths, windmills, and a legendary schooner museum</span></div></li>
+          <li class="item" data-map="Strom Spa Nordique Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Strom Spa Nordique 🧖</span><span class="item-desc">Outdoor Nordic spa with thermotherapy baths overlooking the St. Lawrence</span></div></li>
+          <li class="item" data-map="Siberian Station Spa Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Siberian Station Spa</span><span class="item-desc">A beautifully designed urban Nordic spa in the heart of the city</span></div></li>
+          <li class="item" data-map="Nordik Spa Nature Village Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Nordik Spa Nature Village</span><span class="item-desc">A sprawling Nordic wellness retreat in the forest — thermotherapy pools, wood-fired saunas, and genuine quiet</span></div></li>
         </ul>
       </div>
     </div>
@@ -802,10 +830,10 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Île d'Orléans</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Terrasse du Chevalier-de-Lévis</span><span class="item-desc">Sunset views of Québec City from across the river</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Montmorency Falls</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Cap-Tourmente 🌳</span></div></li>
+          <li class="item" data-map="Île d'Orléans Quebec Canada"><span class="item-bullet">◆</span><div><span class="item-name">Île d'Orléans</span><span class="item-desc">A pastoral island adrift in the St. Lawrence — farm stands, chocolatiers, cideries, and some of the province's best sugar shack views</span></div></li>
+          <li class="item" data-map="Terrasse du Chevalier-de-Lévis Lévis Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Terrasse du Chevalier-de-Lévis</span><span class="item-desc">The viewpoint locals swear by — Château Frontenac and the old city skyline at golden hour, seen from Lévis across the water</span></div></li>
+          <li class="item" data-map="Montmorency Falls Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Montmorency Falls</span><span class="item-desc">Taller than Niagara — a thundering waterfall just 10 minutes from the old city, with a suspension bridge at the crest</span></div></li>
+          <li class="item" data-map="Cap-Tourmente National Wildlife Area Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Cap-Tourmente 🌳</span><span class="item-desc">A national wildlife area on the north shore — extraordinary during the spring and fall snow goose migrations</span></div></li>
         </ul>
       </div>
     </div>
@@ -854,22 +882,22 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chez Bouley — Épicerie Québécoise</span><span class="item-desc">Shop · Prepared foods · Pastries · Next to a cute hotel</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Grand Marché de Québec</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie J.A. Moisan</span><span class="item-desc">Possibly closed · Oldest grocery store in North America</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Boucherie Charcuterie Artisanal Lyn Tremblay</span><span class="item-desc">Butcher and charcuterie</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Place Boutique Gourmand</span><span class="item-desc">Market · Wine &amp; beer · Local products · Largest chip section in Québec</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Les Trouvailles de Jules</span><span class="item-desc">Local artisanal products</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie Richard</span><span class="item-desc">Small shop with artisanal products</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie de la Rue Coillard</span><span class="item-desc">Another charming small shop</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Marché d'Emma</span><span class="item-desc">Cute shop · Local beer</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie Chez Paul</span><span class="item-desc">Gas station with fresh baked meat pies</span></div></li>
+          <li class="item" data-map="Chez Boulay épicerie québécoise Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Chez Boulay — Épicerie Québécoise</span><span class="item-desc">Prepared foods, pastries, and Québécois pantry staples — next to a lovely boutique hotel</span></div></li>
+          <li class="item" data-map="Le Grand Marché de Québec Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Le Grand Marché de Québec</span><span class="item-desc">The city's flagship public market — a handsome modern hall packed with local producers, cheeses, meats, and seasonal produce</span></div></li>
+          <li class="item" data-map="Épicerie J.A. Moisan Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie J.A. Moisan</span><span class="item-desc">Reputedly the oldest grocery store in North America — call ahead, as it has been known to close unexpectedly</span></div></li>
+          <li class="item" data-map="Boucherie Charcuterie Artisanal Lyn Tremblay Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Boucherie Charcuterie Artisanal Lyn Tremblay</span><span class="item-desc">A serious butcher and charcuterie counter</span></div></li>
+          <li class="item" data-map="La Place Boutique Gourmand Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">La Place Boutique Gourmand</span><span class="item-desc">Market, wine and beer, local specialties — and, gloriously, the largest chip section in Québec</span></div></li>
+          <li class="item" data-map="Les Trouvailles de Jules Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Les Trouvailles de Jules</span><span class="item-desc">A lovely browsing shop stocked with Québécois artisanal goods — ideal for gifts</span></div></li>
+          <li class="item" data-map="Épicerie Richard Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie Richard</span><span class="item-desc">A tight, well-curated little shop with thoughtful local finds</span></div></li>
+          <li class="item" data-map="Épicerie de la Rue Coillard Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie de la Rue Coillard</span><span class="item-desc">Another neighbourhood gem on a lovely street</span></div></li>
+          <li class="item" data-map="Marché d'Emma Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Marché d'Emma</span><span class="item-desc">A cheerful neighbourhood market with a strong local beer selection</span></div></li>
+          <li class="item" data-map="Épicerie Chez Paul Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Épicerie Chez Paul</span><span class="item-desc">Do not be put off by the gas station exterior — the freshly baked meat pies are the stuff of legend</span></div></li>
         </ul>
       </div>
     </div>
 
     <!-- CHEESE -->
-    <div class="section theme-gold" id="s-cheese">
+    <div class="section theme-orange" id="s-cheese">
       <div class="section-header" onclick="toggle('s-cheese')">
         <span class="icon">🧀</span>
         <span class="section-title">Fromageries &amp; Cheese</span>
@@ -877,18 +905,18 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Famille Migneron de Charlevoix</span><span class="item-desc">Cheesemakers · Wine</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Laiterie Charlevoix</span><span class="item-desc">Cheesemaker · Farmer · Shop · Small museum · Picnic area</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Fromagerie des Grondines</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Maison d'Affinage Maurice Dufour</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Réserve</span><span class="item-desc">Shop · Cheese and charcuterie</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Charcutier du Marché</span><span class="item-desc">Charcuterie · Sausages · Hot food · 2 locations</span></div></li>
+          <li class="item" data-map="Famille Migneron de Charlevoix fromagerie Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Famille Migneron de Charlevoix</span><span class="item-desc">Cheesemakers and wine producers in Charlevoix</span></div></li>
+          <li class="item" data-map="Laiterie Charlevoix fromagerie Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Laiterie Charlevoix</span><span class="item-desc">A working farm and fromagerie with a shop, small cheese museum, and lovely picnic area</span></div></li>
+          <li class="item" data-map="Fromagerie des Grondines Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Fromagerie des Grondines</span><span class="item-desc">A small artisan fromagerie on the Chemin du Roy, worth a stop between Montréal and Québec City</span></div></li>
+          <li class="item" data-map="Maison d'Affinage Maurice Dufour Baie-Saint-Paul Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Maison d'Affinage Maurice Dufour</span><span class="item-desc">Producer of Migneron de Charlevoix and Ciel de Charlevoix — two of Québec's most celebrated cheeses</span></div></li>
+          <li class="item" data-map="La Réserve fromagerie charcuterie Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">La Réserve</span><span class="item-desc">A well-stocked cheese and charcuterie counter — ideal for assembling a picnic</span></div></li>
+          <li class="item" data-map="Charcutier du Marché Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Charcutier du Marché</span><span class="item-desc">Charcuterie, house-made sausages, and hot prepared food — two locations</span></div></li>
         </ul>
       </div>
     </div>
 
     <!-- BREAD -->
-    <div class="section theme-orange" id="s-bread">
+    <div class="section theme-sky" id="s-bread">
       <div class="section-header" onclick="toggle('s-bread')">
         <span class="icon">🥐</span>
         <span class="section-title">Boulangeries &amp; Bread</span>
@@ -896,15 +924,15 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Pascal Le Boulanger</span><span class="item-desc">2 locations</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Boulangerie Bouchard</span><span class="item-desc">2 locations · German-style breads</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Boulangerie Louis Marchand</span><span class="item-desc">Very old-school bread and pastry</span></div></li>
+          <li class="item" data-map="Pascal Le Boulanger Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Pascal Le Boulanger</span><span class="item-desc">Two locations — consistently excellent</span></div></li>
+          <li class="item" data-map="Boulangerie Bouchard Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Boulangerie Bouchard</span><span class="item-desc">Two locations; known for hearty German-style loaves alongside classic Québécois baking</span></div></li>
+          <li class="item" data-map="Boulangerie Louis Marchand Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Boulangerie Louis Marchand</span><span class="item-desc">An institution — unchanged for generations, and all the better for it</span></div></li>
         </ul>
       </div>
     </div>
 
     <!-- SWEETS & PATISSERIES -->
-    <div class="section theme-orange" id="s-sweets">
+    <div class="section theme-gold" id="s-sweets">
       <div class="section-header" onclick="toggle('s-sweets')">
         <span class="icon">🍫</span>
         <span class="section-title">Sweets, Chocolate &amp; Maple</span>
@@ -912,23 +940,23 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Aux Fruits du Biscuitier</span><span class="item-desc">Ice cream · Cookies · Dessert</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Petite Cabane</span><span class="item-desc">Maple shop in Old Québec</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Érablière du Cap Inc</span><span class="item-desc">Taffy stand · Riverside opposite Old Québec · No res needed Sat–Sun 👌</span><span class="tag tag-sky">Riverside · No Res</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Nougaterie Québec</span><span class="item-desc">Île d'Orléans</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Boulangerie Artisanale Épi'Fanny</span><span class="item-desc">Croissants</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Praline e Chocolate</span><span class="item-desc">Croissants · Breads</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Baguette &amp; Chocolat</span><span class="item-desc">Breads · Sandwiches</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Croquembouche</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Borderon et Filles</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Boîte à Pain</span><span class="item-desc">Pastries · Bread</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Confituerie Tigidou</span><span class="item-desc">Jam shop</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chocolaterie — Île d'Orléans</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Chocolaterie du Village</span><span class="item-desc">Chocolate shop · 2 locations</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Erico — Chocolaterie Créative</span><span class="item-desc">Shop + excellent hot chocolate</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Eddy Laurent Chocolaterie</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Champagne Chocolate</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Cotard Chocolate</span></div></li>
+          <li class="item" data-map="Aux Fruits du Biscuitier Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Aux Fruits du Biscuitier</span><span class="item-desc">Ice cream, cookies, and desserts — a reliable sweet stop</span></div></li>
+          <li class="item" data-map="Petite Cabane maple shop Old Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Petite Cabane</span><span class="item-desc">A charming maple specialty shop in the heart of Old Québec</span></div></li>
+          <li class="item" data-map="Érablière du Cap Inc taffy Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Érablière du Cap Inc</span><span class="item-desc">Taffy pulled on snow, on the St. Lawrence riverbank directly opposite the old city — no reservation needed on weekends</span><span class="tag tag-sky">Riverside · No Res</span></div></li>
+          <li class="item" data-map="La Nougaterie Île d'Orléans Quebec"><span class="item-bullet">◆</span><div><span class="item-name">La Nougaterie Québec</span><span class="item-desc">Handmade nougat on Île d'Orléans — a sweet detour worth making</span></div></li>
+          <li class="item" data-map="Boulangerie Artisanale Épi'Fanny Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Boulangerie Artisanale Épi'Fanny</span><span class="item-desc">Exceptional croissants</span></div></li>
+          <li class="item" data-map="Praline e Chocolate Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Praline e Chocolate</span><span class="item-desc">Croissants and breads from a serious pastry kitchen</span></div></li>
+          <li class="item" data-map="Baguette et Chocolat Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Baguette &amp; Chocolat</span><span class="item-desc">Breads and sandwiches — a handy lunch stop</span></div></li>
+          <li class="item" data-map="Le Croquembouche Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Le Croquembouche</span></div></li>
+          <li class="item" data-map="Borderon et Filles Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Borderon et Filles</span></div></li>
+          <li class="item" data-map="La Boîte à Pain Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">La Boîte à Pain</span><span class="item-desc">Pastries and breads, baked with care</span></div></li>
+          <li class="item" data-map="Confituerie Tigidou Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Confituerie Tigidou</span><span class="item-desc">A dedicated jam shop — shelf-stable gifts that travel well</span></div></li>
+          <li class="item" data-map="Chocolaterie Île d'Orléans Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Chocolaterie — Île d'Orléans</span></div></li>
+          <li class="item" data-map="La Chocolaterie du Village Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">La Chocolaterie du Village</span><span class="item-desc">Chocolate shop with two locations around the city</span></div></li>
+          <li class="item" data-map="Erico Chocolaterie Creative Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Erico — Chocolaterie Créative</span><span class="item-desc">A chocolate maker's dream — the hot chocolate here is genuinely extraordinary</span></div></li>
+          <li class="item" data-map="Eddy Laurent Chocolaterie Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Eddy Laurent Chocolaterie</span></div></li>
+          <li class="item" data-map="Champagne Chocolate Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Champagne Chocolate</span></div></li>
+          <li class="item" data-map="Cotard Chocolate Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Cotard Chocolate</span></div></li>
         </ul>
       </div>
     </div>
@@ -942,17 +970,17 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Café Apotek</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Cantook</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">deTerroir Café</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Café Saint-Henri</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Mayflower</span></div></li>
+          <li class="item" data-map="Café Apotek Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Café Apotek</span></div></li>
+          <li class="item" data-map="Cantook café Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Cantook</span></div></li>
+          <li class="item" data-map="deTerroir Café Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">deTerroir Café</span></div></li>
+          <li class="item" data-map="Café Saint-Henri Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Café Saint-Henri</span></div></li>
+          <li class="item" data-map="Mayflower café Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Mayflower</span></div></li>
         </ul>
       </div>
     </div>
 
     <!-- BREAKFAST & LUNCH -->
-    <div class="section theme-sky" id="s-brunch">
+    <div class="section theme-orange" id="s-brunch">
       <div class="section-header" onclick="toggle('s-brunch')">
         <span class="icon">🍳</span>
         <span class="section-title">Breakfast &amp; Lunch</span>
@@ -960,14 +988,14 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Maelstrom Café</span><span class="item-desc">Café in the morning · Cocktail bar at night</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">L'Antiquaire Buffet</span><span class="item-desc">Old-school diner · Classic Québec-style breakfast</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Café Bistro Au Bonnet d'Âne</span><span class="item-desc">Great reviews for service and food · Hearty breakfast</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Bûche</span><span class="item-desc">Classic big French spot · Can be touristy</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Billig</span><span class="item-desc">Crêperie</span></div></li>
-          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Franky Johnny <span class="star">★</span></span><span class="item-desc">Sandwiches · Looks excellent</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chez Boulay — Comptoir Boréal</span><span class="item-desc">Not sit-down · Good to-go options</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Corsaire</span><span class="item-desc">Microbrewery · Lunch · Views of the city</span></div></li>
+          <li class="item" data-map="Maelstrom Café Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Maelstrom Café</span><span class="item-desc">Laid-back café in the morning, atmospheric cocktail bar come evening</span></div></li>
+          <li class="item" data-map="L'Antiquaire Buffet Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">L'Antiquaire Buffet</span><span class="item-desc">A wonderfully time-worn diner serving old-school Québécois breakfasts — pea soup, tourtière, and no-nonsense service</span></div></li>
+          <li class="item" data-map="Café Bistro Au Bonnet d'Âne Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Café Bistro Au Bonnet d'Âne</span><span class="item-desc">Excellent reviews for both food and warm service — hearty, satisfying breakfast</span></div></li>
+          <li class="item" data-map="La Bûche restaurant Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">La Bûche</span><span class="item-desc">A classic, boisterous Québécois restaurant — leans touristy but delivers on atmosphere and comfort food</span></div></li>
+          <li class="item" data-map="Le Billig crêperie Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Le Billig</span><span class="item-desc">A crêperie done properly — both savoury galettes and sweet crêpes</span></div></li>
+          <li class="item" data-map="Franky Johnny sandwiches Quebec City"><span class="item-bullet">⭑</span><div><span class="item-name">Franky Johnny <span class="star">★</span></span><span class="item-desc">A buzzing sandwich counter with serious local cred — do not skip</span></div></li>
+          <li class="item" data-map="Chez Boulay Comptoir Boréal Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Chez Boulay — Comptoir Boréal</span><span class="item-desc">The casual counter sibling to the main restaurant — ideal for a quick bite or picking up provisions</span></div></li>
+          <li class="item" data-map="Le Corsaire microbrewery Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Le Corsaire</span><span class="item-desc">A craft microbrewery with a knockout terrace view over the old port</span></div></li>
         </ul>
       </div>
     </div>
@@ -981,50 +1009,50 @@
       </div>
       <div class="section-body">
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Melba <span class="star">★</span></span><span class="item-desc">Reservations open early March for April</span><span class="tag tag-orange">Book Ahead</span></div></li>
-          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Buvette Scott <span class="star">★</span></span><span class="item-desc">Reservations open early March for April</span><span class="tag tag-orange">Book Ahead</span></div></li>
-          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Battuto</span><span class="item-desc">April res open at noon 3/27</span><span class="tag tag-orange">Book Ahead</span></div></li>
-          <li class="item"><span class="item-bullet">⭑</span><div><span class="item-name">Alentours</span><span class="item-desc">April res open at noon 3/1</span><span class="tag tag-orange">Book Ahead</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Kundah Hotel</span><span class="item-desc">Indian cuisine</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">La Planque</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">L'Affaire est Ketchup</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Laurie Raphaël</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Hono Izakaya / Ramen</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le 101</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Albacore</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chez Boulay Bistro Boréal</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Le Clocher Penché</span></div></li>
+          <li class="item" data-map="Melba restaurant Quebec City"><span class="item-bullet">⭑</span><div><span class="item-name">Melba <span class="star">★</span></span><span class="item-desc">Reservations open early March for April</span><span class="tag tag-orange">Book Ahead</span></div></li>
+          <li class="item" data-map="Buvette Scott Quebec City"><span class="item-bullet">⭑</span><div><span class="item-name">Buvette Scott <span class="star">★</span></span><span class="item-desc">Reservations open early March for April</span><span class="tag tag-orange">Book Ahead</span></div></li>
+          <li class="item" data-map="Battuto restaurant Quebec City"><span class="item-bullet">⭑</span><div><span class="item-name">Battuto</span><span class="item-desc">April res open at noon 3/27</span><span class="tag tag-orange">Book Ahead</span></div></li>
+          <li class="item" data-map="Alentours restaurant Quebec City"><span class="item-bullet">⭑</span><div><span class="item-name">Alentours</span><span class="item-desc">April res open at noon 3/1</span><span class="tag tag-orange">Book Ahead</span></div></li>
+          <li class="item" data-map="Kundah Hotel restaurant Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Kundah Hotel</span><span class="item-desc">Indian restaurant inside a boutique hotel — an unlikely but welcome find in Québec City</span></div></li>
+          <li class="item" data-map="La Planque restaurant Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">La Planque</span><span class="item-desc">A neighbourhood bistro with excellent natural wine and a short, focused menu</span></div></li>
+          <li class="item" data-map="L'Affaire est Ketchup Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">L'Affaire est Ketchup</span><span class="item-desc">The name is cheeky, the food is serious — a beloved BYOB spot in a tiny Saint-Jean-Baptiste space</span></div></li>
+          <li class="item" data-map="Laurie Raphaël restaurant Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Laurie Raphaël</span><span class="item-desc">One of Québec's most acclaimed tables — refined, seasonal, deeply rooted in local terroir</span></div></li>
+          <li class="item" data-map="Hono Izakaya Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Hono Izakaya / Ramen</span><span class="item-desc">A lively Japanese izakaya — ideal for sharing plates and sake after a long day of walking</span></div></li>
+          <li class="item" data-map="Le 101 restaurant Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Le 101</span><span class="item-desc">Elegant dining in the heart of the old city</span></div></li>
+          <li class="item" data-map="Albacore restaurant Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Albacore</span><span class="item-desc">A fish-focused counter restaurant — unfussy, precise, and excellent</span></div></li>
+          <li class="item" data-map="Chez Boulay Bistro Boréal Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Chez Boulay Bistro Boréal</span><span class="item-desc">Boréal cuisine sourced from the forests and waters of northern Québec — one of the city's signature dining experiences</span></div></li>
+          <li class="item" data-map="Le Clocher Penché Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Le Clocher Penché</span><span class="item-desc">A relaxed bistro in Saint-Roch with a devoted local following and a thoughtful natural wine list</span></div></li>
         </ul>
       </div>
     </div>
 
     <!-- DRINKS & BARS -->
-    <div class="section theme-green" id="s-bars">
+    <div class="section theme-sky" id="s-bars">
       <div class="section-header" onclick="toggle('s-bars')">
         <span class="icon">🍷</span>
         <span class="section-title">Cideries, Distilleries, Wine Bars &amp; Bars</span>
         <span class="section-arrow">▼</span>
       </div>
       <div class="section-body">
-        <p style="font-style:italic; font-size:13px; color:var(--navy); opacity:0.6; margin-bottom:12px; font-family:'Cinzel',serif; letter-spacing:1px; text-transform:uppercase; font-size:10px;">— Charlevoix &amp; Surrounds —</p>
+        <p style="font-style:italic; color:var(--navy); opacity:0.6; margin-bottom:12px; font-family:'Cinzel',serif; letter-spacing:1px; text-transform:uppercase; font-size:10px;">— Charlevoix &amp; Surrounds —</p>
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Domaine Orléans</span><span class="item-desc">Cidery — Île d'Orléans</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Menaud Distillery</span><span class="item-desc">Rhubarb vodka</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Omerto</span><span class="item-desc">Tomato wine</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Hydromel Charlevoix</span><span class="item-desc">Honey and meadery · Drop-in tastings available</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Ciderie et Vergers Pedneault</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Cassis Monna &amp; Filles</span><span class="item-desc">Wine shop and tastings · Black currant specialty</span></div></li>
+          <li class="item" data-map="Domaine Orléans ciderie Île d'Orléans Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Domaine Orléans</span><span class="item-desc">Island cidery on Île d'Orléans — still and sparkling varieties, beautiful orchard setting</span></div></li>
+          <li class="item" data-map="Menaud Distillery Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Menaud Distillery</span><span class="item-desc">A beautifully designed distillery; their rhubarb vodka has become something of a Québec icon</span></div></li>
+          <li class="item" data-map="Omerto tomato wine Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Omerto</span><span class="item-desc">Perhaps the only tomato wine worth drinking — seriously, it works</span></div></li>
+          <li class="item" data-map="Hydromel Charlevoix meadery Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Hydromel Charlevoix</span><span class="item-desc">Honey wine and mead producers in Charlevoix — drop-in tastings available</span></div></li>
+          <li class="item" data-map="Ciderie et Vergers Pedneault Île-aux-Coudres Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Ciderie et Vergers Pedneault</span><span class="item-desc">A legendary island cider house on Île-aux-Coudres — try the still, sparkling, and ice ciders</span></div></li>
+          <li class="item" data-map="Cassis Monna et Filles Île d'Orléans Quebec"><span class="item-bullet">◆</span><div><span class="item-name">Cassis Monna &amp; Filles</span><span class="item-desc">Île d'Orléans artisan producer specialising in black currant liqueurs, wines, and vinegars — a delightful tasting room</span></div></li>
         </ul>
         <div class="ornament" style="margin-top:16px;">— · —</div>
-        <p style="font-style:italic; font-size:13px; color:var(--navy); opacity:0.6; margin-bottom:12px; font-family:'Cinzel',serif; letter-spacing:1px; text-transform:uppercase; font-size:10px;">— In Québec City —</p>
+        <p style="font-style:italic; color:var(--navy); opacity:0.6; margin-bottom:12px; font-family:'Cinzel',serif; letter-spacing:1px; text-transform:uppercase; font-size:10px;">— In Québec City —</p>
         <ul class="item-list">
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Buvette Scott</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Buvette Gentille</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Bistro St-Malo</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Bar Ste-Angèle</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Chez Rioux Pettigrew</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Petits Creux</span></div></li>
-          <li class="item"><span class="item-bullet">◆</span><div><span class="item-name">Vieux Carré</span></div></li>
+          <li class="item" data-map="Buvette Scott Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Buvette Scott</span><span class="item-desc">The wine bar attached to the restaurant — low-lit, convivial, and a perfect evening on its own</span></div></li>
+          <li class="item" data-map="Buvette Gentille Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Buvette Gentille</span><span class="item-desc">A cosy neighbourhood wine bar beloved for its natural list and simple, well-chosen plates</span></div></li>
+          <li class="item" data-map="Bistro St-Malo Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Bistro St-Malo</span><span class="item-desc">Casual and convivial — a solid old-city bar with decent food and a comfortable terrace</span></div></li>
+          <li class="item" data-map="Bar Ste-Angèle Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Bar Ste-Angèle</span><span class="item-desc">A late-night stalwart in the old city — wine, jazz, and no pretension</span></div></li>
+          <li class="item" data-map="Chez Rioux Pettigrew Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Chez Rioux &amp; Pettigrew</span><span class="item-desc">A sophisticated little wine bar with an impressive selection and genuinely knowledgeable staff</span></div></li>
+          <li class="item" data-map="Petits Creux bar Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Petits Creux</span><span class="item-desc">Small bites and natural wine in a relaxed Saint-Jean-Baptiste setting</span></div></li>
+          <li class="item" data-map="Vieux Carré bar Quebec City"><span class="item-bullet">◆</span><div><span class="item-name">Vieux Carré</span><span class="item-desc">A jazz-inflected cocktail bar named for New Orleans' French Quarter — the spirit comes through in every detail</span></div></li>
         </ul>
       </div>
     </div>
@@ -1051,6 +1079,28 @@
     document.querySelector('.region-tab.' + region).classList.add('active');
     document.getElementById('panel-' + region).classList.add('active');
   }
+
+  // Inject map pin links for all items with data-map attribute
+  document.querySelectorAll('[data-map]').forEach(function(item) {
+    const query = item.getAttribute('data-map');
+    const url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+    const nameEl = item.querySelector('.item-name, .meal-detail');
+    if (!nameEl) return;
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.className = 'map-link';
+    link.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Map';
+    // Insert after desc if present, otherwise after name
+    const desc = item.querySelector('.item-desc');
+    const container = nameEl.parentElement;
+    if (desc) {
+      desc.insertAdjacentElement('afterend', link);
+    } else {
+      nameEl.insertAdjacentElement('afterend', link);
+    }
+  });
 </script>
 </body>
 </html>
