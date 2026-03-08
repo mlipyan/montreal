@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Québec — A Traveller's Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
   :root {
     --navy: #162040;
@@ -548,6 +549,139 @@
       padding-right: max(10px, env(safe-area-inset-right));
     }
   }
+
+  /* ===================== VIEW TOGGLE ===================== */
+  .view-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    border: 1.5px solid var(--navy);
+    overflow: hidden;
+  }
+
+  .view-btn {
+    flex: 1;
+    padding: 10px 12px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    background: var(--light-cream);
+    color: var(--navy);
+    border: none;
+    border-right: 1px solid var(--navy);
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+  }
+  .view-btn:last-child { border-right: none; }
+  .view-btn.active {
+    background: var(--navy);
+    color: var(--cream);
+  }
+  .view-btn:hover:not(.active) { background: var(--dark-cream); }
+
+  /* ===================== MAP CONTAINER ===================== */
+  .map-view { display: none; }
+  .map-view.active { display: block; }
+  .list-view { display: block; }
+  .list-view.hidden { display: none; }
+
+  #qc-map {
+    width: 100%;
+    height: 460px;
+    border: 1.5px solid var(--navy);
+    margin-bottom: 8px;
+  }
+
+  /* Category filter bar */
+  .map-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 10px 0 12px;
+  }
+
+  .filter-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1.5px solid currentColor;
+    background: transparent;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.18s, color 0.18s;
+    min-height: 34px;
+  }
+  .filter-btn.all { color: var(--navy); }
+  .filter-btn.sites { color: var(--sky); }
+  .filter-btn.nature { color: var(--green); }
+  .filter-btn.food { color: var(--orange); }
+  .filter-btn.sweets { color: var(--gold); }
+  .filter-btn.coffee { color: var(--navy); }
+  .filter-btn.dinner { color: var(--red); }
+  .filter-btn.drinks { color: var(--sky); }
+  .filter-btn.shops { color: #7a5c2e; }
+
+  .filter-btn.active, .filter-btn:hover {
+    background: currentColor;
+    color: var(--cream) !important;
+  }
+
+  /* Leaflet popup overrides */
+  .leaflet-popup-content-wrapper {
+    background: var(--cream);
+    border: 1.5px solid var(--navy);
+    border-radius: 0 !important;
+    box-shadow: 3px 3px 0 var(--navy);
+    font-family: 'EB Garamond', serif;
+  }
+  .leaflet-popup-tip { background: var(--cream); }
+  .leaflet-popup-content { margin: 12px 14px; }
+  .popup-name {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .popup-desc {
+    font-style: italic;
+    font-size: 13px;
+    color: var(--navy);
+    opacity: 0.75;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .popup-map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--sky);
+    text-decoration: none;
+    border: 1px solid var(--sky);
+    padding: 3px 8px;
+  }
+
+  @media (max-width: 430px) {
+    #qc-map { height: 360px; }
+    .filter-btn { font-size: 8.5px; padding: 4px 8px; }
+    .view-btn { font-size: 9px; letter-spacing: 1px; }
+  }
 </style>
 </head>
 <body>
@@ -776,6 +910,37 @@
   <!-- ======================== QUÉBEC CITY PANEL ======================== -->
   <div class="region-panel" id="panel-quebec">
     <p class="region-intro">La vieille capitale — cobblestones, château spires, and tables that make you linger</p>
+
+    <!-- VIEW TOGGLE -->
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-list" onclick="setView('list')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z"/></svg>
+        List View
+      </button>
+      <button class="view-btn" id="btn-map" onclick="setView('map')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+        Map View
+      </button>
+    </div>
+
+    <!-- MAP VIEW -->
+    <div class="map-view" id="qc-map-view">
+      <div class="map-filters" id="map-filters">
+        <button class="filter-btn all active" data-cat="all" onclick="filterMarkers('all')">All</button>
+        <button class="filter-btn sites" data-cat="sites" onclick="filterMarkers('sites')">Sites</button>
+        <button class="filter-btn nature" data-cat="nature" onclick="filterMarkers('nature')">Nature</button>
+        <button class="filter-btn dinner" data-cat="dinner" onclick="filterMarkers('dinner')">Dinner</button>
+        <button class="filter-btn food" data-cat="food" onclick="filterMarkers('food')">Breakfast &amp; Lunch</button>
+        <button class="filter-btn coffee" data-cat="coffee" onclick="filterMarkers('coffee')">Coffee</button>
+        <button class="filter-btn sweets" data-cat="sweets" onclick="filterMarkers('sweets')">Sweets</button>
+        <button class="filter-btn shops" data-cat="shops" onclick="filterMarkers('shops')">Markets</button>
+        <button class="filter-btn drinks" data-cat="drinks" onclick="filterMarkers('drinks')">Drinks &amp; Bars</button>
+      </div>
+      <div id="qc-map"></div>
+    </div>
+
+    <!-- LIST VIEW -->
+    <div class="list-view" id="qc-list-view">
 
     <!-- LINKS -->
     <div class="section theme-navy" id="s-links">
@@ -1057,6 +1222,8 @@
       </div>
     </div>
 
+  </div><!-- /list-view -->
+
   </div><!-- /quebec panel -->
 
   <!-- FOOTER -->
@@ -1101,6 +1268,223 @@
       nameEl.insertAdjacentElement('afterend', link);
     }
   });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+  // ── Toggle between list and map view ──────────────────────────────────
+  function setView(mode) {
+    const mapView  = document.getElementById('qc-map-view');
+    const listView = document.getElementById('qc-list-view');
+    const btnList  = document.getElementById('btn-list');
+    const btnMap   = document.getElementById('btn-map');
+
+    if (mode === 'map') {
+      mapView.classList.add('active');
+      listView.classList.add('hidden');
+      btnMap.classList.add('active');
+      btnList.classList.remove('active');
+      if (!window._qcMap) {
+        // Short delay ensures the container has real dimensions before init
+        setTimeout(() => { initMap(); }, 50);
+      } else {
+        setTimeout(() => { window._qcMap.invalidateSize(); }, 50);
+        setTimeout(() => { window._qcMap.invalidateSize(); }, 300);
+      }
+    } else {
+      mapView.classList.remove('active');
+      listView.classList.remove('hidden');
+      btnList.classList.add('active');
+      btnMap.classList.remove('active');
+    }
+  }
+
+  // ── Place data ────────────────────────────────────────────────────────
+  const PLACES = [
+    // SITES & ACTIVITIES
+    { name: 'Old Québec', cat: 'sites', lat: 46.8123, lng: -71.2066, desc: 'Entirely walkable — start here and let the cobblestones lead you' },
+    { name: 'Walk the City Walls', cat: 'sites', lat: 46.8098, lng: -71.2089, desc: 'The only remaining fortified city walls in North America north of Mexico — 4.6 km loop' },
+    { name: 'Fairmont Le Château Frontenac', cat: 'sites', lat: 46.8197, lng: -71.2049, desc: 'The most photographed hotel in the world — stop in for a drink' },
+    { name: 'Citadelle of Québec', cat: 'sites', lat: 46.8087, lng: -71.2105, desc: 'Star-shaped 1820s fortress, still garrisoned — catch the summer cannon firing' },
+    { name: 'Morrin Centre', cat: 'sites', lat: 46.8142, lng: -71.2092, desc: '19th-century prison turned literary hub, housing one of Québec\'s oldest English libraries' },
+    { name: 'House of Literature', cat: 'sites', lat: 46.8128, lng: -71.2072, desc: 'Québec\'s literary museum in a converted church — the architecture alone is worth it' },
+    { name: 'Lampadaires — Avenue Cartier', cat: 'sites', lat: 46.8064, lng: -71.2198, desc: 'The neighbourhood\'s beloved lampshade installation over the café terrasses' },
+    { name: 'Papeterie Saint-Gilles', cat: 'sites', lat: 47.4370, lng: -70.3724, desc: 'A working paper mill in nearby Saint-Joseph-de-la-Rive — make your own sheet of handmade paper' },
+    { name: 'Isle aux Coudres', cat: 'sites', lat: 47.3928, lng: -70.3717, desc: 'Cycling paths, windmills, and a legendary schooner museum' },
+    { name: 'Strom Spa Nordique', cat: 'sites', lat: 46.8055, lng: -71.1712, desc: 'Outdoor Nordic spa with thermotherapy baths overlooking the St. Lawrence' },
+    { name: 'Siberian Station Spa', cat: 'sites', lat: 46.8139, lng: -71.2138, desc: 'A beautifully designed urban Nordic spa in the heart of the city' },
+    { name: 'Nordik Spa Nature Village', cat: 'sites', lat: 45.4990, lng: -75.8050, desc: 'A sprawling Nordic wellness retreat in the forest — thermotherapy pools and wood-fired saunas' },
+
+    // NATURE
+    { name: 'Île d\'Orléans', cat: 'nature', lat: 46.9118, lng: -70.9960, desc: 'A pastoral island — farm stands, chocolatiers, cideries, and sugar shack views' },
+    { name: 'Terrasse du Chevalier-de-Lévis', cat: 'nature', lat: 46.8133, lng: -71.1753, desc: 'The viewpoint locals swear by — Château Frontenac at golden hour, seen from Lévis' },
+    { name: 'Montmorency Falls', cat: 'nature', lat: 46.8887, lng: -71.1519, desc: 'Taller than Niagara — a thundering waterfall just 10 minutes from the old city' },
+    { name: 'Cap-Tourmente', cat: 'nature', lat: 47.0668, lng: -70.7667, desc: 'Extraordinary during spring and fall snow goose migrations' },
+
+    // DINNER
+    { name: 'Melba', cat: 'dinner', lat: 46.8098, lng: -71.2061, desc: 'Reservations open early March for April — book immediately' },
+    { name: 'Buvette Scott', cat: 'dinner', lat: 46.8093, lng: -71.2256, desc: 'Intimate and precise — one of the city\'s most coveted tables' },
+    { name: 'Battuto', cat: 'dinner', lat: 46.8118, lng: -71.2185, desc: 'April reservations open 3/27 at noon' },
+    { name: 'Alentours', cat: 'dinner', lat: 46.8146, lng: -71.2271, desc: 'April reservations open 3/1 at noon' },
+    { name: 'Kundah Hotel', cat: 'dinner', lat: 46.8125, lng: -71.2143, desc: 'Indian cuisine inside a boutique hotel — an unlikely but welcome find' },
+    { name: 'La Planque', cat: 'dinner', lat: 46.8283, lng: -71.2367, desc: 'Neighbourhood bistro with excellent natural wine and a focused menu' },
+    { name: 'L\'Affaire est Ketchup', cat: 'dinner', lat: 46.8228, lng: -71.2290, desc: 'Beloved BYOB spot in a tiny Saint-Jean-Baptiste space — the name is cheeky, the food is serious' },
+    { name: 'Laurie Raphaël', cat: 'dinner', lat: 46.8167, lng: -71.2072, desc: 'One of Québec\'s most acclaimed tables — refined, seasonal, deeply local' },
+    { name: 'Hono Izakaya', cat: 'dinner', lat: 46.8112, lng: -71.2192, desc: 'Lively Japanese izakaya — ideal for sharing plates and sake' },
+    { name: 'Le 101', cat: 'dinner', lat: 46.8155, lng: -71.2060, desc: 'Elegant dining in the heart of the old city' },
+    { name: 'Albacore', cat: 'dinner', lat: 46.8287, lng: -71.2392, desc: 'Fish-focused counter restaurant — unfussy, precise, and excellent' },
+    { name: 'Chez Boulay Bistro Boréal', cat: 'dinner', lat: 46.8175, lng: -71.2098, desc: 'Boréal cuisine from the forests and waters of northern Québec' },
+    { name: 'Le Clocher Penché', cat: 'dinner', lat: 46.8295, lng: -71.2378, desc: 'Relaxed bistro in Saint-Roch with a devoted local following' },
+    { name: 'Candide', cat: 'dinner', lat: 46.8282, lng: -71.2385, desc: 'Thursday dinner — 8:30 reservation' },
+
+    // BREAKFAST & LUNCH
+    { name: 'Maelstrom Café', cat: 'food', lat: 46.8244, lng: -71.2319, desc: 'Café in the morning, atmospheric cocktail bar by evening' },
+    { name: 'L\'Antiquaire Buffet', cat: 'food', lat: 46.8186, lng: -71.2110, desc: 'Wonderfully time-worn diner — pea soup, tourtière, no-nonsense service' },
+    { name: 'Café Bistro Au Bonnet d\'Âne', cat: 'food', lat: 46.8178, lng: -71.2166, desc: 'Excellent reviews for both food and warm service — hearty breakfast' },
+    { name: 'La Bûche', cat: 'food', lat: 46.8192, lng: -71.2055, desc: 'Classic boisterous Québécois restaurant — leans touristy but delivers on atmosphere' },
+    { name: 'Le Billig', cat: 'food', lat: 46.8221, lng: -71.2256, desc: 'A crêperie done properly — savoury galettes and sweet crêpes' },
+    { name: 'Franky Johnny', cat: 'food', lat: 46.8238, lng: -71.2298, desc: 'A buzzing sandwich counter with serious local cred — do not skip' },
+    { name: 'Chez Boulay — Comptoir Boréal', cat: 'food', lat: 46.8174, lng: -71.2096, desc: 'The casual counter sibling — ideal for a quick bite or provisions' },
+    { name: 'Le Corsaire', cat: 'food', lat: 46.8162, lng: -71.2021, desc: 'Craft microbrewery with a knockout terrace view over the old port' },
+    { name: 'Le Relais Des Pins', cat: 'food', lat: 46.8520, lng: -71.2910, desc: 'Saturday brunch — 10:15 reservation' },
+    { name: 'Érablière du Lac Beauport', cat: 'food', lat: 47.0168, lng: -71.2638, desc: 'Sunday sugar shack lunch — 1:00 reservation, near DUN House' },
+
+    // COFFEE
+    { name: 'Café Apotek', cat: 'coffee', lat: 46.8311, lng: -71.2399, desc: 'Specialty coffee in Saint-Roch' },
+    { name: 'Cantook', cat: 'coffee', lat: 46.8297, lng: -71.2408, desc: 'A favourite neighbourhood café' },
+    { name: 'deTerroir Café', cat: 'coffee', lat: 46.8283, lng: -71.2375, desc: 'Coffee rooted in local terroir and craft' },
+    { name: 'Café Saint-Henri', cat: 'coffee', lat: 46.8115, lng: -71.2148, desc: 'Montréal\'s beloved roaster with a Québec City outpost' },
+    { name: 'Mayflower', cat: 'coffee', lat: 46.8201, lng: -71.2213, desc: 'A calm café for a considered cup' },
+
+    // SWEETS & CHOCOLATE
+    { name: 'Aux Fruits du Biscuitier', cat: 'sweets', lat: 46.8206, lng: -71.2178, desc: 'Ice cream, cookies, and desserts' },
+    { name: 'Petite Cabane', cat: 'sweets', lat: 46.8188, lng: -71.2065, desc: 'Charming maple specialty shop in Old Québec' },
+    { name: 'Érablière du Cap Inc', cat: 'sweets', lat: 46.8210, lng: -71.1898, desc: 'Taffy on snow, on the St. Lawrence riverbank — no reservation needed weekends' },
+    { name: 'La Nougaterie Québec', cat: 'sweets', lat: 46.8890, lng: -71.0145, desc: 'Handmade nougat on Île d\'Orléans' },
+    { name: 'Épi\'Fanny', cat: 'sweets', lat: 46.8145, lng: -71.2118, desc: 'Exceptional croissants' },
+    { name: 'Praline e Chocolate', cat: 'sweets', lat: 46.8099, lng: -71.2174, desc: 'Croissants and breads from a serious pastry kitchen' },
+    { name: 'Baguette & Chocolat', cat: 'sweets', lat: 46.8192, lng: -71.2199, desc: 'Breads and sandwiches — a handy lunch stop' },
+    { name: 'Le Croquembouche', cat: 'sweets', lat: 46.8218, lng: -71.2234, desc: 'Pastries worth seeking out' },
+    { name: 'Borderon et Filles', cat: 'sweets', lat: 46.8222, lng: -71.2248, desc: 'Boulangerie in the old city' },
+    { name: 'La Boîte à Pain', cat: 'sweets', lat: 46.8270, lng: -71.2339, desc: 'Pastries and breads, baked with care' },
+    { name: 'Confituerie Tigidou', cat: 'sweets', lat: 46.8112, lng: -71.2091, desc: 'Dedicated jam shop — shelf-stable gifts that travel well' },
+    { name: 'Erico — Chocolaterie Créative', cat: 'sweets', lat: 46.8197, lng: -71.2208, desc: 'Chocolate maker\'s dream — the hot chocolate is genuinely extraordinary' },
+    { name: 'La Chocolaterie du Village', cat: 'sweets', lat: 46.8159, lng: -71.2082, desc: 'Chocolate shop — two locations' },
+    { name: 'Eddy Laurent Chocolaterie', cat: 'sweets', lat: 46.8148, lng: -71.2105, desc: 'Artisan chocolatier' },
+    { name: 'Champagne Chocolate', cat: 'sweets', lat: 46.8135, lng: -71.2119, desc: 'Fine chocolates' },
+    { name: 'Cotard Chocolate', cat: 'sweets', lat: 46.8142, lng: -71.2131, desc: 'Artisan chocolates' },
+    { name: 'Pascal Le Boulanger', cat: 'sweets', lat: 46.8178, lng: -71.2152, desc: 'Consistently excellent — two locations' },
+    { name: 'Boulangerie Bouchard', cat: 'sweets', lat: 46.8258, lng: -71.2311, desc: 'Two locations — hearty German-style loaves and classic Québécois baking' },
+    { name: 'Boulangerie Louis Marchand', cat: 'sweets', lat: 46.8182, lng: -71.2188, desc: 'An institution — unchanged for generations, all the better for it' },
+
+    // MARKETS & SHOPS
+    { name: 'Le Grand Marché de Québec', cat: 'shops', lat: 46.8329, lng: -71.2466, desc: 'The city\'s flagship public market — local producers, cheeses, meats, seasonal produce' },
+    { name: 'Chez Boulay — Épicerie', cat: 'shops', lat: 46.8172, lng: -71.2094, desc: 'Prepared foods, pastries, and Québécois pantry staples' },
+    { name: 'Épicerie J.A. Moisan', cat: 'shops', lat: 46.8224, lng: -71.2252, desc: 'Reputedly the oldest grocery store in North America — call ahead' },
+    { name: 'La Place Boutique Gourmand', cat: 'shops', lat: 46.8106, lng: -71.2182, desc: 'Market, wine, beer, and the largest chip selection in Québec' },
+    { name: 'Les Trouvailles de Jules', cat: 'shops', lat: 46.8118, lng: -71.2094, desc: 'Québécois artisanal goods — ideal for gifts' },
+    { name: 'Épicerie Richard', cat: 'shops', lat: 46.8198, lng: -71.2162, desc: 'Tight, well-curated little shop with thoughtful local finds' },
+    { name: 'Marché d\'Emma', cat: 'shops', lat: 46.8236, lng: -71.2289, desc: 'Cheerful neighbourhood market with a strong local beer selection' },
+    { name: 'Épicerie Chez Paul', cat: 'shops', lat: 46.8348, lng: -71.2512, desc: 'Do not be put off by the gas station exterior — the meat pies are legendary' },
+    { name: 'La Réserve', cat: 'shops', lat: 46.8191, lng: -71.2112, desc: 'Well-stocked cheese and charcuterie counter — ideal for assembling a picnic' },
+
+    // DRINKS & BARS
+    { name: 'Buvette Scott', cat: 'drinks', lat: 46.8093, lng: -71.2258, desc: 'The wine bar attached to the restaurant — low-lit, convivial' },
+    { name: 'Buvette Gentille', cat: 'drinks', lat: 46.8289, lng: -71.2382, desc: 'Natural wine list and simple, well-chosen plates' },
+    { name: 'Bistro St-Malo', cat: 'drinks', lat: 46.8178, lng: -71.2048, desc: 'Solid old-city bar with decent food and a comfortable terrace' },
+    { name: 'Bar Ste-Angèle', cat: 'drinks', lat: 46.8171, lng: -71.2101, desc: 'Late-night stalwart in the old city — wine, jazz, no pretension' },
+    { name: 'Chez Rioux & Pettigrew', cat: 'drinks', lat: 46.8215, lng: -71.2230, desc: 'Sophisticated wine bar with impressive selection and knowledgeable staff' },
+    { name: 'Petits Creux', cat: 'drinks', lat: 46.8231, lng: -71.2274, desc: 'Small bites and natural wine in Saint-Jean-Baptiste' },
+    { name: 'Vieux Carré', cat: 'drinks', lat: 46.8155, lng: -71.2078, desc: 'Jazz-inflected cocktail bar named for New Orleans\' French Quarter' },
+    { name: 'Domaine Orléans', cat: 'drinks', lat: 46.8965, lng: -71.0221, desc: 'Island cidery on Île d\'Orléans — still and sparkling varieties' },
+    { name: 'Omerto', cat: 'drinks', lat: 46.8108, lng: -71.2188, desc: 'Perhaps the only tomato wine worth drinking — seriously, it works' },
+  ];
+
+  // ── Category colours ─────────────────────────────────────────────────
+  const CAT_COLORS = {
+    sites:  '#4a7fa5',
+    nature: '#2a4e35',
+    dinner: '#8f1c1c',
+    food:   '#bf4e1a',
+    coffee: '#162040',
+    sweets: '#c9943a',
+    shops:  '#7a5c2e',
+    drinks: '#4a7fa5',
+  };
+
+  const CAT_LABELS = {
+    sites: 'Sites', nature: 'Nature', dinner: 'Dinner',
+    food: 'Breakfast & Lunch', coffee: 'Coffee',
+    sweets: 'Sweets & Bread', shops: 'Markets & Shops', drinks: 'Drinks & Bars',
+  };
+
+  let allMarkers = [];
+  let currentCat = 'all';
+
+  function makeIcon(cat) {
+    const color = CAT_COLORS[cat] || '#162040';
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 32" width="24" height="32">
+      <path d="M12 0C7.16 0 3 4.16 3 9c0 6.75 9 23 9 23s9-16.25 9-23C21 4.16 16.84 0 12 0z" fill="${color}" stroke="#f4e8ce" stroke-width="1.5"/>
+      <circle cx="12" cy="9" r="4" fill="#f4e8ce"/>
+    </svg>`;
+    return L.divIcon({
+      html: svg,
+      className: '',
+      iconSize: [24, 32],
+      iconAnchor: [12, 32],
+      popupAnchor: [0, -34],
+    });
+  }
+
+  function initMap() {
+    const map = L.map('qc-map', { zoomControl: true }).setView([46.8250, -71.2100], 13);
+    window._qcMap = map;
+
+    // OpenStreetMap — most reliable, no key needed
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    PLACES.forEach(function(p) {
+      const marker = L.marker([p.lat, p.lng], { icon: makeIcon(p.cat) });
+      const catLabel = CAT_LABELS[p.cat] || p.cat;
+      const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(p.name + ' Quebec City');
+      const popupHtml = `
+        <div class="popup-name">${p.name}</div>
+        <div class="popup-desc">${p.desc}</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;opacity:0.5;color:#162040;">${catLabel}</span>
+          <a class="popup-map-link" href="${mapsUrl}" target="_blank" rel="noopener">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Directions
+          </a>
+        </div>`;
+      marker.bindPopup(popupHtml, { maxWidth: 230 });
+      marker._cat = p.cat;
+      marker.addTo(map);
+      allMarkers.push(marker);
+    });
+
+    // Force tile repaint after container is fully visible
+    setTimeout(() => { map.invalidateSize(); }, 100);
+    setTimeout(() => { map.invalidateSize(); }, 400);
+  }
+
+  function filterMarkers(cat) {
+    currentCat = cat;
+    // Update active filter button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.cat === cat);
+    });
+    if (!window._qcMap) return;
+    allMarkers.forEach(function(m) {
+      if (cat === 'all' || m._cat === cat) {
+        if (!window._qcMap.hasLayer(m)) m.addTo(window._qcMap);
+      } else {
+        if (window._qcMap.hasLayer(m)) window._qcMap.removeLayer(m);
+      }
+    });
+  }
 </script>
 </body>
 </html>
