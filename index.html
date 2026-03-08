@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Québec — A Traveller's Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
@@ -18,7 +20,12 @@
     --dark-cream: #e8d5a8;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
 
   body {
     background-color: var(--navy);
@@ -26,6 +33,7 @@
     font-family: 'EB Garamond', Georgia, serif;
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* GRAIN TEXTURE OVERLAY */
@@ -159,15 +167,20 @@
 
   .region-tab {
     flex: 1;
-    padding: 14px 10px;
+    padding: 16px 10px;
+    min-height: 52px;
     text-align: center;
     cursor: pointer;
+    touch-action: manipulation;
     font-family: 'Cinzel', serif;
     font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
     border: 2px solid transparent;
     transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .region-tab.montreal {
@@ -231,8 +244,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 13px 18px;
+    min-height: 52px;
     cursor: pointer;
     user-select: none;
+    touch-action: manipulation;
     transition: background 0.2s;
     gap: 12px;
   }
@@ -432,11 +447,81 @@
     margin-bottom: 6px;
   }
 
-  /* ===================== RESPONSIVE ===================== */
-  @media (max-width: 600px) {
-    .page-wrapper { padding: 12px; }
-    .header { padding: 30px 16px 20px; }
-    .region-tab { font-size: 9px; letter-spacing: 1.5px; padding: 12px 6px; }
+  /* ===================== RESPONSIVE — iPHONE ===================== */
+  @media (max-width: 430px) {
+    .page-wrapper { padding: 10px; }
+
+    /* Header */
+    .header { padding: 28px 12px 20px; }
+    .header-inner { padding: 18px 14px; }
+    .header-flag { font-size: 9px; letter-spacing: 3px; }
+    .header h1 { font-size: clamp(32px, 10vw, 48px); }
+    .header-sub { font-size: 15px; }
+    .sunburst { width: 90px; height: 90px; margin-bottom: 12px; }
+
+    /* Tabs — stack vertically on very narrow screens */
+    .region-tabs { flex-direction: column; }
+    .region-tab {
+      font-size: 11px;
+      letter-spacing: 2px;
+      padding: 15px 12px;
+      min-height: 52px;
+    }
+
+    /* Panel */
+    .region-panel { padding: 16px 12px; }
+    .region-intro { font-size: 14px; }
+
+    /* Section headers */
+    .section-header { padding: 13px 14px; gap: 10px; }
+    .section-header .icon { font-size: 18px; }
+    .section-title { font-size: 11px; letter-spacing: 1.5px; }
+    .section-arrow { font-size: 11px; }
+
+    /* Section body */
+    .section-body { padding: 14px 12px; }
+
+    /* Items */
+    .item { padding: 9px 10px; font-size: 15px; gap: 8px; }
+    .item-bullet { font-size: 15px; }
+    .item-desc { font-size: 13.5px; }
+
+    /* Meal rows — stack time above detail */
+    .meal-row {
+      flex-direction: column;
+      gap: 3px;
+      align-items: flex-start;
+      padding: 8px 10px;
+    }
+    .meal-time {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      min-width: unset;
+      white-space: normal;
+    }
+    .meal-detail { font-size: 15px; }
+    .itinerary-day-label { font-size: 11px; letter-spacing: 2px; }
+
+    /* Links */
+    .link-row a { font-size: 13px; }
+
+    /* Tags */
+    .tag { font-size: 9px; letter-spacing: 1px; padding: 2px 6px; }
+
+    /* Footer */
+    .footer { padding: 20px 16px; }
+    .footer p { font-size: 13.5px; }
+  }
+
+  /* Safe area for iPhone notch/home bar */
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .footer {
+      padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    }
+    .page-wrapper {
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
+    }
   }
 </style>
 </head>
