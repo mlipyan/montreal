@@ -677,10 +677,138 @@
     padding: 3px 8px;
   }
 
+  /* Locate me button */
+  .locate-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1.5px solid var(--green);
+    color: var(--green);
+    background: transparent;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.18s, color 0.18s;
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+  }
+  .locate-btn:hover, .locate-btn.locating {
+    background: var(--green);
+    color: var(--cream);
+  }
+  .locate-btn.located {
+    background: var(--green);
+    color: var(--cream);
+    border-color: var(--green);
+  }
+
+  /* You-are-here marker pulse */
+  .you-marker {
+    width: 18px;
+    height: 18px;
+    background: #2a9d8f;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(42,157,143,0.5);
+    animation: pulse-ring 1.8s ease-out infinite;
+  }
+  @keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0 rgba(42,157,143,0.5); }
+    70%  { box-shadow: 0 0 0 12px rgba(42,157,143,0); }
+    100% { box-shadow: 0 0 0 0 rgba(42,157,143,0); }
+  }
+
+  /* Manual entry modal */
+  .locate-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(22,32,64,0.6);
+    z-index: 9000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .locate-modal-overlay.open { display: flex; }
+  .locate-modal {
+    background: var(--cream);
+    border: 2px solid var(--navy);
+    padding: 24px 20px;
+    max-width: 340px;
+    width: 100%;
+    position: relative;
+    box-shadow: 6px 6px 0 var(--navy);
+  }
+  .locate-modal h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
+  .locate-modal p {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--navy);
+    opacity: 0.7;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .locate-modal input {
+    width: 100%;
+    padding: 9px 10px;
+    font-family: 'EB Garamond', serif;
+    font-size: 15px;
+    border: 1.5px solid var(--navy);
+    background: var(--light-cream);
+    color: var(--navy);
+    margin-bottom: 12px;
+    outline: none;
+    box-sizing: border-box;
+  }
+  .locate-modal input:focus { border-color: var(--sky); }
+  .locate-modal-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .locate-modal-btn {
+    flex: 1;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 9px 10px;
+    border: 1.5px solid var(--navy);
+    cursor: pointer;
+    touch-action: manipulation;
+    min-height: 40px;
+  }
+  .locate-modal-btn.primary { background: var(--navy); color: var(--cream); }
+  .locate-modal-btn.secondary { background: transparent; color: var(--navy); }
+  .locate-modal-close {
+    position: absolute;
+    top: 10px; right: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--navy);
+    opacity: 0.5;
+    background: none;
+    border: none;
+    line-height: 1;
+  }
+
   @media (max-width: 430px) {
     #qc-map { height: 360px; }
     .filter-btn { font-size: 8.5px; padding: 4px 8px; }
     .view-btn { font-size: 9px; letter-spacing: 1px; }
+    .locate-btn { font-size: 8.5px; padding: 4px 8px; margin-left: 0; }
   }
 </style>
 </head>
@@ -935,8 +1063,26 @@
         <button class="filter-btn sweets" data-cat="sweets" onclick="filterMarkers('sweets')">Sweets</button>
         <button class="filter-btn shops" data-cat="shops" onclick="filterMarkers('shops')">Markets</button>
         <button class="filter-btn drinks" data-cat="drinks" onclick="filterMarkers('drinks')">Drinks &amp; Bars</button>
+        <button class="locate-btn" id="locate-btn" onclick="locateMe()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg>
+          Locate Me
+        </button>
       </div>
       <div id="qc-map"></div>
+    </div>
+
+    <!-- Location modal -->
+    <div class="locate-modal-overlay" id="locate-modal-overlay">
+      <div class="locate-modal">
+        <button class="locate-modal-close" onclick="closeLocateModal()">✕</button>
+        <h3>📍 Your Location</h3>
+        <p>Enter a Québec City address or landmark and we'll drop a pin on the map.</p>
+        <input type="text" id="locate-input" placeholder="e.g. 12 Rue Saint-Jean, Québec City" />
+        <div class="locate-modal-actions">
+          <button class="locate-modal-btn secondary" onclick="closeLocateModal()">Cancel</button>
+          <button class="locate-modal-btn primary" onclick="submitManualLocation()">Pin It</button>
+        </div>
+      </div>
     </div>
 
     <!-- LIST VIEW -->
@@ -1472,7 +1618,6 @@
 
   function filterMarkers(cat) {
     currentCat = cat;
-    // Update active filter button
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.cat === cat);
     });
@@ -1485,6 +1630,113 @@
       }
     });
   }
+
+  // ── You-are-here marker ───────────────────────────────────────────────
+  let youMarker = null;
+
+  function placeYouMarker(lat, lng, label) {
+    if (!window._qcMap) return;
+    const youIcon = L.divIcon({
+      html: '<div class="you-marker"></div>',
+      className: '',
+      iconSize: [18, 18],
+      iconAnchor: [9, 9],
+      popupAnchor: [0, -14],
+    });
+    if (youMarker) window._qcMap.removeLayer(youMarker);
+    youMarker = L.marker([lat, lng], { icon: youIcon, zIndexOffset: 1000 })
+      .addTo(window._qcMap)
+      .bindPopup(`<div class="popup-name">📍 You Are Here</div><div class="popup-desc">${label}</div>`, { maxWidth: 200 })
+      .openPopup();
+    window._qcMap.flyTo([lat, lng], 15, { duration: 1.2 });
+    // Update button state
+    const btn = document.getElementById('locate-btn');
+    btn.classList.remove('locating');
+    btn.classList.add('located');
+    btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg> Located`;
+  }
+
+  // ── GPS locate ────────────────────────────────────────────────────────
+  function locateMe() {
+    // If already located, clicking again removes the marker and resets
+    if (youMarker && window._qcMap && window._qcMap.hasLayer(youMarker)) {
+      window._qcMap.removeLayer(youMarker);
+      youMarker = null;
+      const btn = document.getElementById('locate-btn');
+      btn.classList.remove('located', 'locating');
+      btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg> Locate Me`;
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      openLocateModal();
+      return;
+    }
+    const btn = document.getElementById('locate-btn');
+    btn.classList.add('locating');
+    btn.textContent = 'Locating…';
+
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        placeYouMarker(pos.coords.latitude, pos.coords.longitude, 'Your current location');
+      },
+      function(err) {
+        btn.classList.remove('locating');
+        btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg> Locate Me`;
+        // GPS denied or unavailable — fall back to manual entry
+        openLocateModal();
+      },
+      { timeout: 8000, maximumAge: 60000 }
+    );
+  }
+
+  // ── Manual address entry (uses Nominatim/OSM free geocoder) ──────────
+  function openLocateModal() {
+    document.getElementById('locate-modal-overlay').classList.add('open');
+    setTimeout(() => document.getElementById('locate-input').focus(), 100);
+  }
+
+  function closeLocateModal() {
+    document.getElementById('locate-modal-overlay').classList.remove('open');
+    document.getElementById('locate-input').value = '';
+  }
+
+  function submitManualLocation() {
+    const raw = document.getElementById('locate-input').value.trim();
+    if (!raw) return;
+    const query = raw + ', Quebec City, Canada';
+    const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(query);
+    closeLocateModal();
+    const btn = document.getElementById('locate-btn');
+    btn.classList.add('locating');
+    btn.textContent = 'Searching…';
+
+    fetch(url, { headers: { 'Accept-Language': 'en' } })
+      .then(r => r.json())
+      .then(results => {
+        if (!results || results.length === 0) {
+          btn.classList.remove('locating');
+          btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg> Not Found`;
+          setTimeout(() => {
+            btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg> Locate Me`;
+          }, 2500);
+          return;
+        }
+        const r = results[0];
+        placeYouMarker(parseFloat(r.lat), parseFloat(r.lon), r.display_name.split(',').slice(0,2).join(', '));
+      })
+      .catch(() => {
+        btn.classList.remove('locating');
+        btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg> Locate Me`;
+      });
+  }
+
+  // Allow pressing Enter in the modal input
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('locate-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') submitManualLocation();
+    });
+  });
 </script>
 </body>
 </html>
