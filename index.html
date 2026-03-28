@@ -821,7 +821,6 @@
     <div class="header-inner">
       <div class="sunburst">
         <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Rays -->
           <g stroke="#c9943a" stroke-width="1.2" opacity="0.6">
             <line x1="60" y1="2" x2="60" y2="30"/>
             <line x1="60" y1="90" x2="60" y2="118"/>
@@ -840,10 +839,8 @@
             <line x1="83" y1="10" x2="73" y2="34"/>
             <line x1="47" y1="86" x2="37" y2="110"/>
           </g>
-          <!-- Outer ring -->
           <circle cx="60" cy="60" r="50" stroke="#c9943a" stroke-width="1" fill="none" opacity="0.4"/>
           <circle cx="60" cy="60" r="44" stroke="#c9943a" stroke-width="0.5" fill="none" opacity="0.3"/>
-          <!-- Fleur de lys simplified -->
           <circle cx="60" cy="60" r="18" fill="#162040"/>
           <text x="60" y="67" font-size="18" text-anchor="middle" fill="#c9943a" font-family="serif">⚜</text>
         </svg>
@@ -1368,7 +1365,7 @@
       </div>
     </div>
 
-  </div><!-- /list-view -->
+    </div><!-- /list-view -->
 
   </div><!-- /quebec panel -->
 
@@ -1405,7 +1402,6 @@
     link.rel = 'noopener noreferrer';
     link.className = 'map-link';
     link.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Map';
-    // Insert after desc if present, otherwise after name
     const desc = item.querySelector('.item-desc');
     const container = nameEl.parentElement;
     if (desc) {
@@ -1415,7 +1411,9 @@
     }
   });
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
 <script>
   // ── Toggle between list and map view ──────────────────────────────────
   function setView(mode) {
@@ -1430,7 +1428,6 @@
       btnMap.classList.add('active');
       btnList.classList.remove('active');
       if (!window._qcMap) {
-        // Short delay ensures the container has real dimensions before init
         setTimeout(() => { initMap(); }, 50);
       } else {
         setTimeout(() => { window._qcMap.invalidateSize(); }, 50);
@@ -1444,105 +1441,104 @@
     }
   }
 
-  // ── Place data ────────────────────────────────────────────────────────
+  // ── Geocoded coordinates ─────────────────────────────────────────────
   const PLACES = [
     // SITES & ACTIVITIES
-    { name: 'Old Québec', cat: 'sites', lat: 46.8123, lng: -71.2066, desc: 'Entirely walkable — start here and let the cobblestones lead you' },
-    { name: 'Walk the City Walls', cat: 'sites', lat: 46.8098, lng: -71.2089, desc: 'The only remaining fortified city walls in North America north of Mexico — 4.6 km loop' },
-    { name: 'Fairmont Le Château Frontenac', cat: 'sites', lat: 46.8197, lng: -71.2049, desc: 'The most photographed hotel in the world — stop in for a drink' },
-    { name: 'Citadelle of Québec', cat: 'sites', lat: 46.8087, lng: -71.2105, desc: 'Star-shaped 1820s fortress, still garrisoned — catch the summer cannon firing' },
-    { name: 'Morrin Centre', cat: 'sites', lat: 46.8142, lng: -71.2092, desc: '19th-century prison turned literary hub, housing one of Québec\'s oldest English libraries' },
-    { name: 'House of Literature', cat: 'sites', lat: 46.8128, lng: -71.2072, desc: 'Québec\'s literary museum in a converted church — the architecture alone is worth it' },
-    { name: 'Lampadaires — Avenue Cartier', cat: 'sites', lat: 46.8064, lng: -71.2198, desc: 'The neighbourhood\'s beloved lampshade installation over the café terrasses' },
-    { name: 'Papeterie Saint-Gilles', cat: 'sites', lat: 47.4370, lng: -70.3724, desc: 'A working paper mill in nearby Saint-Joseph-de-la-Rive — make your own sheet of handmade paper' },
-    { name: 'Isle aux Coudres', cat: 'sites', lat: 47.3928, lng: -70.3717, desc: 'Cycling paths, windmills, and a legendary schooner museum' },
-    { name: 'Strom Spa Nordique', cat: 'sites', lat: 46.8055, lng: -71.1712, desc: 'Outdoor Nordic spa with thermotherapy baths overlooking the St. Lawrence' },
-    { name: 'Siberian Station Spa', cat: 'sites', lat: 46.8139, lng: -71.2138, desc: 'A beautifully designed urban Nordic spa in the heart of the city' },
-    { name: 'Nordik Spa Nature Village', cat: 'sites', lat: 45.4990, lng: -75.8050, desc: 'A sprawling Nordic wellness retreat in the forest — thermotherapy pools and wood-fired saunas' },
+    { name: 'Old Québec',                    cat: 'sites',  lat: 46.8125, lng: -71.2075, desc: 'Entirely walkable — start here and let the cobblestones lead you' },
+    { name: 'Fairmont Le Château Frontenac', cat: 'sites',  lat: 46.8120, lng: -71.2052, desc: 'The most photographed hotel in the world — stop in for a drink' },
+    { name: 'Citadelle of Québec',           cat: 'sites',  lat: 46.8078, lng: -71.2069, desc: 'Star-shaped 1820s fortress, still garrisoned — catch the summer cannon firing' },
+    { name: 'Morrin Centre',                 cat: 'sites',  lat: 46.8127, lng: -71.2104, desc: '19th-century prison turned literary hub, housing one of Québec\'s oldest English libraries' },
+    { name: 'Maison de la littérature',      cat: 'sites',  lat: 46.8130, lng: -71.2109, desc: 'Québec\'s literary museum in a converted church — the architecture alone is worth it' },
+    { name: 'Lampadaires — Avenue Cartier',  cat: 'sites',  lat: 46.8024, lng: -71.2242, desc: 'The neighbourhood\'s beloved lampshade installation over the café terrasses' },
+    { name: 'Papeterie Saint-Gilles',        cat: 'sites',  lat: 47.4578, lng: -70.3634, desc: 'A working paper mill in Saint-Joseph-de-la-Rive — make your own sheet of handmade paper' },
+    { name: 'Île aux Coudres',               cat: 'sites',  lat: 47.3986, lng: -70.3739, desc: 'Cycling paths, windmills, and a legendary schooner museum' },
+    { name: 'Strom Spa Nordique',            cat: 'sites',  lat: 46.8005, lng: -71.2113, desc: 'Outdoor Nordic spa with thermotherapy baths overlooking the St. Lawrence' },
+    { name: 'Siberia Station Spa',           cat: 'sites',  lat: 46.9171, lng: -71.3217, desc: 'A beautifully designed Nordic spa — not downtown but well worth the drive' },
+    { name: 'Nordik Spa-Nature',             cat: 'sites',  lat: 45.5050, lng: -75.8027, desc: 'A sprawling Nordic wellness retreat in the forest near Chelsea — thermotherapy pools and wood-fired saunas' },
 
     // NATURE
-    { name: 'Île d\'Orléans', cat: 'nature', lat: 46.9118, lng: -70.9960, desc: 'A pastoral island — farm stands, chocolatiers, cideries, and sugar shack views' },
-    { name: 'Terrasse du Chevalier-de-Lévis', cat: 'nature', lat: 46.8133, lng: -71.1753, desc: 'The viewpoint locals swear by — Château Frontenac at golden hour, seen from Lévis' },
-    { name: 'Montmorency Falls', cat: 'nature', lat: 46.8887, lng: -71.1519, desc: 'Taller than Niagara — a thundering waterfall just 10 minutes from the old city' },
-    { name: 'Cap-Tourmente', cat: 'nature', lat: 47.0668, lng: -70.7667, desc: 'Extraordinary during spring and fall snow goose migrations' },
+    { name: 'Île d\'Orléans',               cat: 'nature', lat: 46.9167, lng: -70.9833, desc: 'A pastoral island — farm stands, chocolatiers, cideries, and sugar shack views' },
+    { name: 'Terrasse du Chevalier-de-Lévis',cat: 'nature', lat: 46.8061, lng: -71.1860, desc: 'The viewpoint locals swear by — Château Frontenac at golden hour, seen from across the water' },
+    { name: 'Chute Montmorency',             cat: 'nature', lat: 46.8875, lng: -71.1478, desc: 'Taller than Niagara — a thundering waterfall just 10 minutes from the old city' },
+    { name: 'Cap-Tourmente',                 cat: 'nature', lat: 47.0641, lng: -70.7964, desc: 'Extraordinary during spring and fall snow goose migrations' },
 
     // DINNER
-    { name: 'Melba', cat: 'dinner', lat: 46.8098, lng: -71.2061, desc: 'Reservations open early March for April — book immediately' },
-    { name: 'Buvette Scott', cat: 'dinner', lat: 46.8093, lng: -71.2256, desc: 'Intimate and precise — one of the city\'s most coveted tables' },
-    { name: 'Battuto', cat: 'dinner', lat: 46.8118, lng: -71.2185, desc: 'April reservations open 3/27 at noon' },
-    { name: 'Alentours', cat: 'dinner', lat: 46.8146, lng: -71.2271, desc: 'April reservations open 3/1 at noon' },
-    { name: 'Kundah Hotel', cat: 'dinner', lat: 46.8125, lng: -71.2143, desc: 'Indian cuisine inside a boutique hotel — an unlikely but welcome find' },
-    { name: 'La Planque', cat: 'dinner', lat: 46.8283, lng: -71.2367, desc: 'Neighbourhood bistro with excellent natural wine and a focused menu' },
-    { name: 'L\'Affaire est Ketchup', cat: 'dinner', lat: 46.8228, lng: -71.2290, desc: 'Beloved BYOB spot in a tiny Saint-Jean-Baptiste space — the name is cheeky, the food is serious' },
-    { name: 'Laurie Raphaël', cat: 'dinner', lat: 46.8167, lng: -71.2072, desc: 'One of Québec\'s most acclaimed tables — refined, seasonal, deeply local' },
-    { name: 'Hono Izakaya', cat: 'dinner', lat: 46.8112, lng: -71.2192, desc: 'Lively Japanese izakaya — ideal for sharing plates and sake' },
-    { name: 'Le 101', cat: 'dinner', lat: 46.8155, lng: -71.2060, desc: 'Elegant dining in the heart of the old city' },
-    { name: 'Albacore', cat: 'dinner', lat: 46.8287, lng: -71.2392, desc: 'Fish-focused counter restaurant — unfussy, precise, and excellent' },
-    { name: 'Chez Boulay Bistro Boréal', cat: 'dinner', lat: 46.8175, lng: -71.2098, desc: 'Boréal cuisine from the forests and waters of northern Québec' },
-    { name: 'Le Clocher Penché', cat: 'dinner', lat: 46.8295, lng: -71.2378, desc: 'Relaxed bistro in Saint-Roch with a devoted local following' },
-    { name: 'Candide', cat: 'dinner', lat: 46.8282, lng: -71.2385, desc: 'Thursday dinner — 8:30 reservation' },
+    { name: 'Restaurant Melba',              cat: 'dinner', lat: 46.8119, lng: -71.2392, desc: 'Reservations open early March for April — book immediately' },
+    { name: 'Buvette Scott',                 cat: 'dinner', lat: 46.8092, lng: -71.2212, desc: 'Intimate and precise — one of the city\'s most coveted tables' },
+    { name: 'Battuto',                       cat: 'dinner', lat: 46.8104, lng: -71.2299, desc: 'April reservations open 3/27 at noon' },
+    { name: 'Alentours',                     cat: 'dinner', lat: 46.8086, lng: -71.2466, desc: 'April reservations open 3/1 at noon' },
+    { name: 'Kundah',                        cat: 'dinner', lat: 46.8152, lng: -71.2253, desc: 'Indian cuisine inside a boutique hotel — an unlikely but welcome find' },
+    { name: 'La Planque',                    cat: 'dinner', lat: 46.8267, lng: -71.2302, desc: 'Neighbourhood bistro with excellent natural wine and a focused menu' },
+    { name: 'L\'Affaire est Ketchup',       cat: 'dinner', lat: 46.8124, lng: -71.2305, desc: 'Beloved BYOB spot — the name is cheeky, the food is serious' },
+    { name: 'Laurie Raphaël',               cat: 'dinner', lat: 46.8171, lng: -71.2026, desc: 'One of Québec\'s most acclaimed tables — refined, seasonal, deeply local' },
+    { name: 'Hono Izakaya',                  cat: 'dinner', lat: 46.8154, lng: -71.2213, desc: 'Lively Japanese izakaya — ideal for sharing plates and sake' },
+    { name: 'Le 101',                        cat: 'dinner', lat: 46.8125, lng: -71.2297, desc: 'Elegant dining in Saint-Roch' },
+    { name: 'Albacore',                      cat: 'dinner', lat: 46.8126, lng: -71.2175, desc: 'Fish-focused counter restaurant — unfussy, precise, and excellent' },
+    { name: 'Chez Boulay Bistro Boréal',    cat: 'dinner', lat: 46.8140, lng: -71.2108, desc: 'Boréal cuisine from the forests and waters of northern Québec' },
+    { name: 'Le Clocher Penché',            cat: 'dinner', lat: 46.8129, lng: -71.2283, desc: 'Relaxed bistro in Saint-Roch with a devoted local following' },
+    { name: 'Candide',                       cat: 'dinner', lat: 45.4891, lng: -73.5695, desc: 'Thursday dinner — 8:30 reservation' },
 
     // BREAKFAST & LUNCH
-    { name: 'Maelstrom Café', cat: 'food', lat: 46.8244, lng: -71.2319, desc: 'Café in the morning, atmospheric cocktail bar by evening' },
-    { name: 'L\'Antiquaire Buffet', cat: 'food', lat: 46.8186, lng: -71.2110, desc: 'Wonderfully time-worn diner — pea soup, tourtière, no-nonsense service' },
-    { name: 'Café Bistro Au Bonnet d\'Âne', cat: 'food', lat: 46.8178, lng: -71.2166, desc: 'Excellent reviews for both food and warm service — hearty breakfast' },
-    { name: 'La Bûche', cat: 'food', lat: 46.8192, lng: -71.2055, desc: 'Classic boisterous Québécois restaurant — leans touristy but delivers on atmosphere' },
-    { name: 'Le Billig', cat: 'food', lat: 46.8221, lng: -71.2256, desc: 'A crêperie done properly — savoury galettes and sweet crêpes' },
-    { name: 'Franky Johnny', cat: 'food', lat: 46.8238, lng: -71.2298, desc: 'A buzzing sandwich counter with serious local cred — do not skip' },
-    { name: 'Chez Boulay — Comptoir Boréal', cat: 'food', lat: 46.8174, lng: -71.2096, desc: 'The casual counter sibling — ideal for a quick bite or provisions' },
-    { name: 'Le Corsaire', cat: 'food', lat: 46.8162, lng: -71.2021, desc: 'Craft microbrewery with a knockout terrace view over the old port' },
-    { name: 'Le Relais Des Pins', cat: 'food', lat: 46.8520, lng: -71.2910, desc: 'Saturday brunch — 10:15 reservation' },
-    { name: 'Érablière du Lac Beauport', cat: 'food', lat: 47.0168, lng: -71.2638, desc: 'Sunday sugar shack lunch — 1:00 reservation, near DUN House' },
+    { name: 'Maelstrom',                     cat: 'food',   lat: 46.8114, lng: -71.2276, desc: 'Café in the morning, atmospheric cocktail bar come evening' },
+    { name: 'L\'Antiquaire Buffet',         cat: 'food',   lat: 46.8163, lng: -71.2046, desc: 'Wonderfully time-worn diner — pea soup, tourtière, and no-nonsense service' },
+    { name: 'Au Bonnet d\'Âne',             cat: 'food',   lat: 46.8086, lng: -71.2238, desc: 'Excellent reviews for both food and warm service — hearty breakfast' },
+    { name: 'La Bûche',                     cat: 'food',   lat: 46.8113, lng: -71.2080, desc: 'Classic boisterous Québécois restaurant — delivers on atmosphere and comfort food' },
+    { name: 'Le Billig',                     cat: 'food',   lat: 46.8094, lng: -71.2213, desc: 'A crêperie done properly — savoury galettes and sweet crêpes' },
+    { name: 'Franky Johnny',                 cat: 'food',   lat: 46.8120, lng: -71.2352, desc: 'A buzzing sandwich counter with serious local cred — do not skip' },
+    { name: 'Comptoir Boréal',              cat: 'food',   lat: 46.8146, lng: -71.2108, desc: 'The casual counter sibling — ideal for a quick bite or provisions' },
+    { name: 'Le Corsaire',                   cat: 'food',   lat: 46.8097, lng: -71.1869, desc: 'Craft microbrewery in Lévis with a knockout terrace view over the old port' },
+    { name: 'Le Relais Des Pins',            cat: 'food',   lat: 46.9281, lng: -71.0194, desc: 'Saturday brunch — 10:15 reservation, on Île d\'Orléans' },
+    { name: 'Érablière du Lac Beauport',    cat: 'food',   lat: 46.9764, lng: -71.2887, desc: 'Sunday sugar shack lunch — 1:00 reservation, near DUN House' },
 
     // COFFEE
-    { name: 'Café Apotek', cat: 'coffee', lat: 46.8311, lng: -71.2399, desc: 'Specialty coffee in Saint-Roch' },
-    { name: 'Cantook', cat: 'coffee', lat: 46.8297, lng: -71.2408, desc: 'A favourite neighbourhood café' },
-    { name: 'deTerroir Café', cat: 'coffee', lat: 46.8283, lng: -71.2375, desc: 'Coffee rooted in local terroir and craft' },
-    { name: 'Café Saint-Henri', cat: 'coffee', lat: 46.8115, lng: -71.2148, desc: 'Montréal\'s beloved roaster with a Québec City outpost' },
-    { name: 'Mayflower', cat: 'coffee', lat: 46.8201, lng: -71.2213, desc: 'A calm café for a considered cup' },
+    { name: 'Café Apotek',                   cat: 'coffee', lat: 46.8167, lng: -71.2085, desc: 'Specialty coffee in Old Québec' },
+    { name: 'Cantook',                       cat: 'coffee', lat: 46.8099, lng: -71.2201, desc: 'A favourite neighbourhood café' },
+    { name: 'deTerroir Café',               cat: 'coffee', lat: 46.8111, lng: -71.2180, desc: 'Coffee rooted in local terroir and craft' },
+    { name: 'Café Saint-Henri',             cat: 'coffee', lat: 46.8161, lng: -71.2183, desc: 'Montréal\'s beloved roaster with a Québec City outpost' },
+    { name: 'Mayflower',                     cat: 'coffee', lat: 46.7685, lng: -71.2670, desc: 'A calm café for a considered cup' },
 
     // SWEETS & CHOCOLATE
-    { name: 'Aux Fruits du Biscuitier', cat: 'sweets', lat: 46.8206, lng: -71.2178, desc: 'Ice cream, cookies, and desserts' },
-    { name: 'Petite Cabane', cat: 'sweets', lat: 46.8188, lng: -71.2065, desc: 'Charming maple specialty shop in Old Québec' },
-    { name: 'Érablière du Cap Inc', cat: 'sweets', lat: 46.8210, lng: -71.1898, desc: 'Taffy on snow, on the St. Lawrence riverbank — no reservation needed weekends' },
-    { name: 'La Nougaterie Québec', cat: 'sweets', lat: 46.8890, lng: -71.0145, desc: 'Handmade nougat on Île d\'Orléans' },
-    { name: 'Épi\'Fanny', cat: 'sweets', lat: 46.8145, lng: -71.2118, desc: 'Exceptional croissants' },
-    { name: 'Praline e Chocolate', cat: 'sweets', lat: 46.8099, lng: -71.2174, desc: 'Croissants and breads from a serious pastry kitchen' },
-    { name: 'Baguette & Chocolat', cat: 'sweets', lat: 46.8192, lng: -71.2199, desc: 'Breads and sandwiches — a handy lunch stop' },
-    { name: 'Le Croquembouche', cat: 'sweets', lat: 46.8218, lng: -71.2234, desc: 'Pastries worth seeking out' },
-    { name: 'Borderon et Filles', cat: 'sweets', lat: 46.8222, lng: -71.2248, desc: 'Boulangerie in the old city' },
-    { name: 'La Boîte à Pain', cat: 'sweets', lat: 46.8270, lng: -71.2339, desc: 'Pastries and breads, baked with care' },
-    { name: 'Confituerie Tigidou', cat: 'sweets', lat: 46.8112, lng: -71.2091, desc: 'Dedicated jam shop — shelf-stable gifts that travel well' },
-    { name: 'Erico — Chocolaterie Créative', cat: 'sweets', lat: 46.8197, lng: -71.2208, desc: 'Chocolate maker\'s dream — the hot chocolate is genuinely extraordinary' },
-    { name: 'La Chocolaterie du Village', cat: 'sweets', lat: 46.8159, lng: -71.2082, desc: 'Chocolate shop — two locations' },
-    { name: 'Eddy Laurent Chocolaterie', cat: 'sweets', lat: 46.8148, lng: -71.2105, desc: 'Artisan chocolatier' },
-    { name: 'Champagne Chocolate', cat: 'sweets', lat: 46.8135, lng: -71.2119, desc: 'Fine chocolates' },
-    { name: 'Cotard Chocolate', cat: 'sweets', lat: 46.8142, lng: -71.2131, desc: 'Artisan chocolates' },
-    { name: 'Pascal Le Boulanger', cat: 'sweets', lat: 46.8178, lng: -71.2152, desc: 'Consistently excellent — two locations' },
-    { name: 'Boulangerie Bouchard', cat: 'sweets', lat: 46.8258, lng: -71.2311, desc: 'Two locations — hearty German-style loaves and classic Québécois baking' },
-    { name: 'Boulangerie Louis Marchand', cat: 'sweets', lat: 46.8182, lng: -71.2188, desc: 'An institution — unchanged for generations, all the better for it' },
+    { name: 'Aux Fruits du Biscuitier',      cat: 'sweets', lat: 47.4215, lng: -70.3772, desc: 'Ice cream, cookies, and desserts on Île-aux-Coudres' },
+    { name: 'Petite Cabane',                 cat: 'sweets', lat: 46.8109, lng: -71.2036, desc: 'Charming maple specialty shop in Old Québec' },
+    { name: 'Érablière du Cap Inc',         cat: 'sweets', lat: 46.6575, lng: -71.3896, desc: 'Taffy on snow on the St. Lawrence — no reservation needed weekends' },
+    { name: 'La Nougaterie Québec',          cat: 'sweets', lat: 46.8865, lng: -71.0776, desc: 'Handmade nougat on Île d\'Orléans' },
+    { name: 'Boulangerie Épi\'Fanny',      cat: 'sweets', lat: 46.8105, lng: -71.2194, desc: 'Exceptional croissants' },
+    { name: 'Praline e Chocolate',           cat: 'sweets', lat: 46.9676, lng: -71.0218, desc: 'Croissants and breads from a serious pastry kitchen in Château-Richer' },
+    { name: 'Baguette & Chocolat',           cat: 'sweets', lat: 46.8145, lng: -71.2078, desc: 'Breads and sandwiches — a handy lunch stop' },
+    { name: 'Le Croquembouche',             cat: 'sweets', lat: 46.8131, lng: -71.2279, desc: 'Pastries worth seeking out' },
+    { name: 'Borderon et Filles',            cat: 'sweets', lat: 46.8790, lng: -71.1792, desc: 'Boulangerie with beautiful pastries in Beauport' },
+    { name: 'La Boîte à Pain',             cat: 'sweets', lat: 46.7789, lng: -71.3043, desc: 'Pastries and breads in Sainte-Foy, baked with care' },
+    { name: 'Confituerie Tigidou',           cat: 'sweets', lat: 46.8602, lng: -71.0068, desc: 'Dedicated jam shop on Île d\'Orléans — shelf-stable gifts that travel well' },
+    { name: 'Erico Chocolaterie',            cat: 'sweets', lat: 46.8104, lng: -71.2196, desc: 'Chocolate maker\'s dream — the hot chocolate is genuinely extraordinary' },
+    { name: 'La Chocolaterie du Village',    cat: 'sweets', lat: 46.8499, lng: -71.1403, desc: 'Chocolate shop on Île d\'Orléans' },
+    { name: 'Eddy Laurent Chocolaterie',     cat: 'sweets', lat: 46.7818, lng: -71.2523, desc: 'Artisan Belgian chocolatier on Avenue Maguire' },
+    { name: 'Champagne Chocolate',           cat: 'sweets', lat: 46.8147, lng: -71.2229, desc: 'Fine chocolates' },
+    { name: 'Cotard Chocolate',              cat: 'sweets', lat: 46.7702, lng: -71.2855, desc: 'Artisan chocolates in Sainte-Foy' },
+    { name: 'Pascal Le Boulanger',           cat: 'sweets', lat: 46.9831, lng: -71.3679, desc: 'Consistently excellent — in Stoneham, two locations' },
+    { name: 'Boulangerie Bouchard',          cat: 'sweets', lat: 47.3869, lng: -70.4306, desc: 'Île-aux-Coudres — hearty German-style loaves and classic Québécois baking' },
+    { name: 'Boulangerie Louis Marchand',    cat: 'sweets', lat: 46.8116, lng: -71.2331, desc: 'An institution — unchanged for generations, all the better for it' },
 
     // MARKETS & SHOPS
-    { name: 'Le Grand Marché de Québec', cat: 'shops', lat: 46.8329, lng: -71.2466, desc: 'The city\'s flagship public market — local producers, cheeses, meats, seasonal produce' },
-    { name: 'Chez Boulay — Épicerie', cat: 'shops', lat: 46.8172, lng: -71.2094, desc: 'Prepared foods, pastries, and Québécois pantry staples' },
-    { name: 'Épicerie J.A. Moisan', cat: 'shops', lat: 46.8224, lng: -71.2252, desc: 'Reputedly the oldest grocery store in North America — call ahead' },
-    { name: 'La Place Boutique Gourmand', cat: 'shops', lat: 46.8106, lng: -71.2182, desc: 'Market, wine, beer, and the largest chip selection in Québec' },
-    { name: 'Les Trouvailles de Jules', cat: 'shops', lat: 46.8118, lng: -71.2094, desc: 'Québécois artisanal goods — ideal for gifts' },
-    { name: 'Épicerie Richard', cat: 'shops', lat: 46.8198, lng: -71.2162, desc: 'Tight, well-curated little shop with thoughtful local finds' },
-    { name: 'Marché d\'Emma', cat: 'shops', lat: 46.8236, lng: -71.2289, desc: 'Cheerful neighbourhood market with a strong local beer selection' },
-    { name: 'Épicerie Chez Paul', cat: 'shops', lat: 46.8348, lng: -71.2512, desc: 'Do not be put off by the gas station exterior — the meat pies are legendary' },
-    { name: 'La Réserve', cat: 'shops', lat: 46.8191, lng: -71.2112, desc: 'Well-stocked cheese and charcuterie counter — ideal for assembling a picnic' },
+    { name: 'Le Grand Marché de Québec',    cat: 'shops',  lat: 46.8290, lng: -71.2456, desc: 'The city\'s flagship public market — local producers, cheeses, meats, seasonal produce' },
+    { name: 'Chez Boulay — Épicerie',       cat: 'shops',  lat: 46.8146, lng: -71.2108, desc: 'Prepared foods, pastries, and Québécois pantry staples' },
+    { name: 'Épicerie J.A. Moisan',         cat: 'shops',  lat: 46.8104, lng: -71.2189, desc: 'Reputedly the oldest grocery store in North America — call ahead' },
+    { name: 'La Place Boutique Gourmand',    cat: 'shops',  lat: 46.8153, lng: -71.2209, desc: 'Market, wine, beer, and the largest chip selection in Québec' },
+    { name: 'Les Trouvailles de Jules',      cat: 'shops',  lat: 46.8131, lng: -71.2063, desc: 'Québécois artisanal goods — ideal for gifts' },
+    { name: 'Épicerie Richard',             cat: 'shops',  lat: 46.8119, lng: -71.2075, desc: 'Tight, well-curated little shop with thoughtful local finds' },
+    { name: 'Marché d\'Emma',              cat: 'shops',  lat: 46.8126, lng: -71.2116, desc: 'Cheerful neighbourhood market with a strong local beer selection' },
+    { name: 'Épicerie Chez Paul',           cat: 'shops',  lat: 46.8397, lng: -71.2209, desc: 'Do not be put off by the gas station exterior — the meat pies are legendary' },
+    { name: 'La Réserve',                   cat: 'shops',  lat: 46.8265, lng: -71.2296, desc: 'Well-stocked cheese and charcuterie counter — ideal for assembling a picnic' },
 
     // DRINKS & BARS
-    { name: 'Buvette Scott', cat: 'drinks', lat: 46.8093, lng: -71.2258, desc: 'The wine bar attached to the restaurant — low-lit, convivial' },
-    { name: 'Buvette Gentille', cat: 'drinks', lat: 46.8289, lng: -71.2382, desc: 'Natural wine list and simple, well-chosen plates' },
-    { name: 'Bistro St-Malo', cat: 'drinks', lat: 46.8178, lng: -71.2048, desc: 'Solid old-city bar with decent food and a comfortable terrace' },
-    { name: 'Bar Ste-Angèle', cat: 'drinks', lat: 46.8171, lng: -71.2101, desc: 'Late-night stalwart in the old city — wine, jazz, no pretension' },
-    { name: 'Chez Rioux & Pettigrew', cat: 'drinks', lat: 46.8215, lng: -71.2230, desc: 'Sophisticated wine bar with impressive selection and knowledgeable staff' },
-    { name: 'Petits Creux', cat: 'drinks', lat: 46.8231, lng: -71.2274, desc: 'Small bites and natural wine in Saint-Jean-Baptiste' },
-    { name: 'Vieux Carré', cat: 'drinks', lat: 46.8155, lng: -71.2078, desc: 'Jazz-inflected cocktail bar named for New Orleans\' French Quarter' },
-    { name: 'Domaine Orléans', cat: 'drinks', lat: 46.8965, lng: -71.0221, desc: 'Island cidery on Île d\'Orléans — still and sparkling varieties' },
-    { name: 'Omerto', cat: 'drinks', lat: 46.8108, lng: -71.2188, desc: 'Perhaps the only tomato wine worth drinking — seriously, it works' },
+    { name: 'Buvette Scott',                 cat: 'drinks', lat: 46.8092, lng: -71.2212, desc: 'The wine bar — low-lit, convivial, a perfect evening' },
+    { name: 'Buvette Gentille',              cat: 'drinks', lat: 47.4442, lng: -70.5089, desc: 'Natural wine list and simple, well-chosen plates — in Baie-Saint-Paul' },
+    { name: 'Bistro St-Malo',               cat: 'drinks', lat: 46.8162, lng: -71.2040, desc: 'Solid old-city bar with decent food and a comfortable terrace' },
+    { name: 'Bar Ste-Angèle',              cat: 'drinks', lat: 46.8131, lng: -71.2117, desc: 'Late-night stalwart in the old city — wine, jazz, no pretension' },
+    { name: 'Chez Rioux & Pettigrew',        cat: 'drinks', lat: 46.8167, lng: -71.2068, desc: 'Sophisticated wine bar with an impressive selection' },
+    { name: 'Petits Creux',                  cat: 'drinks', lat: 46.8034, lng: -71.2252, desc: 'Small bites and natural wine in Saint-Jean-Baptiste' },
+    { name: 'Vieux Carré',                  cat: 'drinks', lat: 46.8134, lng: -71.2023, desc: 'Jazz-inflected cocktail bar named for New Orleans\' French Quarter' },
+    { name: 'Domaine Orléans',              cat: 'drinks', lat: 46.8688, lng: -71.1120, desc: 'Island cidery on Île d\'Orléans — still and sparkling varieties' },
+    { name: 'Omerto',                        cat: 'drinks', lat: 47.4389, lng: -70.5731, desc: 'Perhaps the only tomato wine worth drinking — in Baie-Saint-Paul' },
   ];
 
   // ── Category colours ─────────────────────────────────────────────────
@@ -1581,37 +1577,37 @@
     });
   }
 
+  function addMarkerToMap(map, p) {
+    const marker = L.marker([p.lat, p.lng], { icon: makeIcon(p.cat) });
+    const catLabel = CAT_LABELS[p.cat] || p.cat;
+    const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(p.name + ' Québec City QC');
+    const popupHtml = `
+      <div class="popup-name">${p.name}</div>
+      <div class="popup-desc">${p.desc}</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;opacity:0.5;color:#162040;">${catLabel}</span>
+        <a class="popup-map-link" href="${mapsUrl}" target="_blank" rel="noopener">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Directions
+        </a>
+      </div>`;
+    marker.bindPopup(popupHtml, { maxWidth: 230 });
+    marker._cat = p.cat;
+    if (currentCat === 'all' || currentCat === p.cat) marker.addTo(map);
+    allMarkers.push(marker);
+  }
+
   function initMap() {
-    const map = L.map('qc-map', { zoomControl: true }).setView([46.8250, -71.2100], 13);
+    const map = L.map('qc-map', { zoomControl: true }).setView([46.8200, -71.2150], 13);
     window._qcMap = map;
 
-    // OpenStreetMap — most reliable, no key needed
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
     }).addTo(map);
 
-    PLACES.forEach(function(p) {
-      const marker = L.marker([p.lat, p.lng], { icon: makeIcon(p.cat) });
-      const catLabel = CAT_LABELS[p.cat] || p.cat;
-      const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(p.name + ' Quebec City');
-      const popupHtml = `
-        <div class="popup-name">${p.name}</div>
-        <div class="popup-desc">${p.desc}</div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;opacity:0.5;color:#162040;">${catLabel}</span>
-          <a class="popup-map-link" href="${mapsUrl}" target="_blank" rel="noopener">
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-            Directions
-          </a>
-        </div>`;
-      marker.bindPopup(popupHtml, { maxWidth: 230 });
-      marker._cat = p.cat;
-      marker.addTo(map);
-      allMarkers.push(marker);
-    });
+    PLACES.forEach(p => addMarkerToMap(map, p));
 
-    // Force tile repaint after container is fully visible
     setTimeout(() => { map.invalidateSize(); }, 100);
     setTimeout(() => { map.invalidateSize(); }, 400);
   }
@@ -1649,16 +1645,13 @@
       .bindPopup(`<div class="popup-name">📍 You Are Here</div><div class="popup-desc">${label}</div>`, { maxWidth: 200 })
       .openPopup();
     window._qcMap.flyTo([lat, lng], 15, { duration: 1.2 });
-    // Update button state
     const btn = document.getElementById('locate-btn');
     btn.classList.remove('locating');
     btn.classList.add('located');
     btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg> Located`;
   }
 
-  // ── GPS locate ────────────────────────────────────────────────────────
   function locateMe() {
-    // If already located, clicking again removes the marker and resets
     if (youMarker && window._qcMap && window._qcMap.hasLayer(youMarker)) {
       window._qcMap.removeLayer(youMarker);
       youMarker = null;
@@ -1690,7 +1683,6 @@
     );
   }
 
-  // ── Manual address entry (uses Nominatim/OSM free geocoder) ──────────
   function openLocateModal() {
     document.getElementById('locate-modal-overlay').classList.add('open');
     setTimeout(() => document.getElementById('locate-input').focus(), 100);
@@ -1731,12 +1723,13 @@
       });
   }
 
-  // Allow pressing Enter in the modal input
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('locate-input').addEventListener('keydown', function(e) {
+  window.addEventListener('load', function() {
+    var inp = document.getElementById('locate-input');
+    if (inp) inp.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') submitManualLocation();
     });
   });
 </script>
+
 </body>
 </html>
