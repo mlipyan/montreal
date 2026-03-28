@@ -1073,7 +1073,6 @@
       <div class="locate-modal">
         <button class="locate-modal-close" onclick="closeLocateModal()">✕</button>
         <h3>📍 Your Location</h3>
-        <p id="locate-ios-hint" style="display:none; color:var(--orange); opacity:1; font-style:normal; font-size:13px; border:1px solid var(--orange); padding:8px 10px; margin-bottom:10px; line-height:1.45;">GPS access was denied. On iPhone: open <strong>Settings → Safari → Location</strong> and set to <strong>Ask</strong>, then reload this page. You can also enter an address below.</p>
         <p>Enter a Québec City address or landmark and we'll drop a pin on the map.</p>
         <input type="text" id="locate-input" placeholder="e.g. 12 Rue Saint-Jean, Québec City" />
         <div class="locate-modal-actions">
@@ -1663,7 +1662,7 @@
     }
 
     if (!navigator.geolocation) {
-      openLocateModal(false);
+      openLocateModal();
       return;
     }
     const btn = document.getElementById('locate-btn');
@@ -1677,16 +1676,14 @@
       function(err) {
         btn.classList.remove('locating');
         btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg> Locate Me`;
-        // err.code 1 = PERMISSION_DENIED — on iOS this means the prompt was skipped
-        openLocateModal(err.code === 1);
+        // GPS denied or unavailable — fall back to manual entry
+        openLocateModal();
       },
       { timeout: 8000, maximumAge: 60000 }
     );
   }
 
-  function openLocateModal(gpsDenied) {
-    var hint = document.getElementById('locate-ios-hint');
-    if (hint) hint.style.display = gpsDenied ? 'block' : 'none';
+  function openLocateModal() {
     document.getElementById('locate-modal-overlay').classList.add('open');
     setTimeout(() => document.getElementById('locate-input').focus(), 100);
   }
