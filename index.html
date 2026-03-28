@@ -1676,6 +1676,7 @@
       function(err) {
         btn.classList.remove('locating');
         btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-7.938 3A8.003 8.003 0 0 1 11 4.062V2h2v2.062A8.003 8.003 0 0 1 19.938 11H22v2h-2.062A8.003 8.003 0 0 1 13 19.938V22h-2v-2.062A8.003 8.003 0 0 1 4.062 13H2v-2h2.062z"/></svg> Locate Me`;
+        // GPS denied or unavailable — fall back to manual entry
         openLocateModal();
       },
       { timeout: 8000, maximumAge: 60000 }
